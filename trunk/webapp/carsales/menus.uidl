@@ -1,0 +1,116 @@
+function getFileMenu()
+{
+    jMenuFile = new Swing.JMenu();
+    jMenuFile.setText("File");
+
+    jMenuFileContext = new Swing.JMenuItem();
+    jMenuFileContext.setText("Show Statistics");
+    jMenuFileContext.addActionListener(showStatisticsAction);
+    jMenuFile.add(jMenuFileContext);
+
+    jMenuFileExit = new Swing.JMenuItem();
+    jMenuFileExit.setText("Exit");
+    jMenuFileExit.addActionListener(quitAction);
+    jMenuFile.add(jMenuFileExit);
+
+    return jMenuFile;
+}
+
+function getCustomerMenu()
+{
+    jMenuCustomer = new Swing.JMenu();
+    jMenuCustomer.setText("Customer");
+
+    jMenuCustomerImport = new Swing.JMenuItem();
+    jMenuCustomerImport.setText("New Customer");
+    jMenuCustomerImport.addActionListener(newCustomerAction);
+    jMenuCustomer.add(jMenuCustomerImport);
+
+    jMenuCustomerEdit = new Swing.JMenuItem();
+    jMenuCustomerEdit.setText("Edit Customer");
+    jMenuCustomerEdit.addActionListener(editSpecificCustomerAction);
+    jMenuCustomer.add(jMenuCustomerEdit);
+
+    jMenuCustomerModify = new Swing.JMenuItem();
+    jMenuCustomerModify.setText("Edit Customers");
+    jMenuCustomerModify.addActionListener(editCustomersAction);
+    jMenuCustomer.add(jMenuCustomerModify);
+
+    return jMenuCustomer;
+}
+
+function getCarsMenu()
+{
+    jMenuCars = new Swing.JMenu();
+    jMenuCars.setText("Cars");
+
+    jMenuCarsAddMake = new Swing.JMenuItem();
+    jMenuCarsAddMake.setText("Add Make");
+    jMenuCarsAddMake.addActionListener(addMakeAction);
+    jMenuCars.add(jMenuCarsAddMake);
+
+    jMenuCarsAddModel = new Swing.JMenuItem();
+    jMenuCarsAddModel.setText("Add Model");
+    jMenuCarsAddModel.addActionListener(addModelAction);
+    jMenuCars.add(jMenuCarsAddModel);
+
+    jMenuCarsMake = new Swing.JMenuItem();
+    jMenuCarsMake.setText("Manage Makes");
+    jMenuCarsMake.addActionListener(manageMakesAction);
+    jMenuCars.add(jMenuCarsMake);
+
+    jMenuCarsModel = new Swing.JMenuItem();
+    jMenuCarsModel.setText("Manage Models");
+    jMenuCarsModel.addActionListener(manageModelsAction);
+    jMenuCars.add(jMenuCarsModel);
+
+    return jMenuCars;
+}
+
+function getOptionMenu()
+{
+    jMenuOption = new Swing.JMenu();
+    jMenuOption.setText("Option");
+
+    jMenuOptionEditOptions = new Swing.JMenuItem();
+    jMenuOptionEditOptions.setText("Edit Options");
+    jMenuOptionEditOptions.addActionListener(manageAllOptionsAction);
+    jMenuOption.add(jMenuOptionEditOptions);
+
+    jMenuOptioneAddNewOption = new Swing.JMenuItem();
+    jMenuOptioneAddNewOption.setText("Add New Option");
+    jMenuOptioneAddNewOption.addActionListener(addNewOptionAction);
+    jMenuOption.add(jMenuOptioneAddNewOption);
+
+    jMenuOptionAddMake = new Swing.JMenuItem();
+    jMenuOptionAddMake.setText("Add Make Options");
+    jMenuOptionAddMake.addActionListener(addMakeOptionAction);
+    jMenuOption.add(jMenuOptionAddMake);
+
+    jMenuOptionAddModel = new Swing.JMenuItem();
+    jMenuOptionAddModel.setText("Add Model Options");
+    jMenuOptionAddModel.addActionListener(addModelOptionAction);
+    jMenuOption.add(jMenuOptionAddModel);
+
+    return jMenuOption;
+}
+
+function createMenuBar()
+{
+    jMenuBar = new Swing.JMenuBar();
+
+    jMenuHelp = new Swing.JMenu();
+    jMenuHelp.setText("Help");
+    jMenuHelpAbout = new Swing.JMenuItem();
+    jMenuHelpAbout.setText("About");
+    jMenuHelpAbout.addActionListener(aboutAction);
+    jMenuHelp.add(jMenuHelpAbout);
+
+    jMenuBar.add(getFileMenu());
+    jMenuBar.add(getCustomerMenu());
+    jMenuBar.add(getCarsMenu());
+    jMenuBar.add(getOptionMenu());
+    jMenuBar.add(jMenuHelp);
+
+    return jMenuBar;
+}

@@ -1,0 +1,7 @@
+var hostRoot = "http://" + hostName + ":" + hostPort + "/uidl/";
+var jsonrpc = new JSONRpcClient(hostRoot + "JSON-RPC");
+
+customerManager = jsonrpc.customerManager;
+makeManager = jsonrpc.makeManager;
+modelManager = jsonrpc.modelManager;
+optionManager = jsonrpc.optionManager;

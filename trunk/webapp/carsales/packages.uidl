@@ -1,0 +1,25 @@
+Swing = Packages.javax.swing;
+Event = java.awt.event;
+Awt = java.awt;
+Lang = java.lang;
+Util = java.util;
+Spring = Packages.org.springframework;
+Uidl = Packages.net.uidl;
+
+Integer = Lang.Integer;
+System = Lang.System;
+JFrame = Swing.JFrame;
+JButton = Swing.JButton;
+JRadioButton = Swing.JRadioButton;
+ButtonGroup = Swing.ButtonGroup;
+JPanel = Swing.JPanel;
+JLabel = Swing.JLabel;
+JTextField = Swing.JTextField;
+KeyEvent = Event.KeyEvent
+UIManager = Swing.UIManager;
+SwingUtilities = Swing.SwingUtilities;
+BorderFactory = Swing.BorderFactory;
+BorderLayout = Awt.BorderLayout;
+GridLayout = Awt.GridLayout;
+Properties = java.util.Properties;
+TableLayout = Packages.info.clearthought.layout.TableLayout

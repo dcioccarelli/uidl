@@ -1,0 +1,39 @@
+// Common utility libraries
+browser.loadRemoteLibrary("lib/TableLayout.jar");
+
+// Package synonyms
+browser.include("packages.uidl");
+
+// Common UIDL imports
+browser.include("menus.uidl");
+browser.include("actions.uidl");
+browser.include("customerActions.uidl");
+browser.include("carActions.uidl");
+browser.include("optionActions.uidl");
+
+UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+
+frame.setLayout(new Awt.BorderLayout());
+menuBar = createMenuBar();
+frame.setJMenuBar(menuBar);
+frame.setTitle("CarSales Administration");
+
+// add some sample default content
+var l = new JLabel(
+    "<html><p align='center'>Welcome to the<br>" +
+    "<font size='7' color='green'>CarSales</font><br><br>" +
+    "Administration Interface</p></html>");
+l.setHorizontalAlignment(Swing.SwingConstants.CENTER);
+addContent(l, BorderLayout.CENTER);
+
+// select remoting implementation
+implementation = Swing.JOptionPane.showInputDialog(null,
+                    "Choose remoting technique...",
+                    "Choose remoting technique",
+                    Swing.JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    ["spring", "json-rpc", "json-rpc-js"],
+                    "spring");
+
+// include corresponding UIDL script to initilise remote proxies
+browser.include(implementation + ".uidl");

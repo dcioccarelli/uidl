@@ -1,0 +1,286 @@
+function customerTableModel(customers)
+{
+    this.customers = customers;
+    this.columnNames = ["e-mail", "Customer Number", "First Name", "Last Name", "Edit", "Modify Make Preferences"];
+
+    this.getColumnCount = function()
+    {
+        return this.columnNames.length;
+    }
+
+    this.getRowCount = function()
+    {
+        return this.customers.size();
+    }
+
+    this.getColumnName = function(col)
+    {
+        return this.columnNames[col];
+    }
+
+    this.getValueAt = function(row, col)
+    {
+        var customer = this.customers.get(row);
+
+        switch(col)
+        {
+        case 0:
+            return customer.getEmail();
+        case 1:
+            return new Lang.Integer(customer.getId()).toString();
+        case 2:
+            return customer.getFirstName();
+        case 3:
+            return customer.getLastName();
+        case 4:
+            return "Edit";
+        case 5:
+            return "Make Preferences";
+        }
+
+        return null;
+    }
+
+    this.getColumnClass = function(c)
+    {
+        if (c > 3)
+            return Lang.Class.forName("javax.swing.JButton");
+        else
+            return Lang.Class.forName("java.lang.String");
+    }
+
+    this.isCellEditable = function(row, col)
+    {
+        if (col < 4)
+            return false;
+        else
+            return true;
+    }
+
+    this.setValueAt = function(value, row, col)
+    {
+        var customer = this.customers.get(row);
+        var e = new Event.ActionEvent(this, 0, customer.getId());
+
+        switch(col)
+        {
+        case 4:
+            editCustomerAction(e);
+            break;
+        case 5:
+            editMakePreferencesAction(e);
+            break;
+        }
+
+        return;
+    }
+}
+
+function editCustomerAction(evt)
+{
+    var id = evt.getActionCommand();
+    var win = new Swing.JFrame(id);
+    var customer = customerManager.getCustomer(id);
+
+    if (customer == null)
+        return;
+
+    win.setSize(new Awt.Dimension(500, 500));
+    pane = win.getContentPane();
+    pane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    pane.setLayout(new GridLayout(16, 2, 0, 0));
+
+    pane.add(new JLabel("Customer Id"));
+    pane.add(new JLabel(customer.getId()));
+
+    pane.add(new JLabel("e-mail Address"));
+    var emailField = new JTextField(customer.getEmail());
+    pane.add(emailField);
+    pane.add(new JLabel("First Name"));
+    var firstNameField = new JTextField(customer.getFirstName());
+    pane.add(firstNameField);
+    pane.add(new JLabel("Last Name"));
+    var lastNameField = new JTextField(customer.getLastName());
+    pane.add(lastNameField);
+    pane.add(new JLabel("Work Phone"));
+    var workPhoneField = new JTextField(customer.getWorkPhone());
+    pane.add(workPhoneField);
+    pane.add(new JLabel("Home Phone"));
+    var homePhoneField = new JTextField(customer.getHomePhone());
+    pane.add(homePhoneField);
+    pane.add(new JLabel("Mobile Phone"));
+    var mobilePhoneField = new JTextField(customer.getMobilePhone());
+    pane.add(mobilePhoneField);
+    pane.add(new JLabel("Address"));
+    var addressField = new JTextField(customer.getAddress());
+    pane.add(addressField);
+    pane.add(new JLabel("City"));
+    var cityField = new JTextField(customer.getCity());
+    pane.add(cityField);
+    pane.add(new JLabel("State"));
+    var stateField = new JTextField(customer.getState());
+    pane.add(stateField);
+    pane.add(new JLabel("Post Code"));
+    var postCodeField = new JTextField(customer.getPostCode());
+    pane.add(postCodeField);
+    pane.add(new JLabel("Country"));
+    var countryField = new JTextField(customer.getCountry());
+    pane.add(countryField);
+
+    pane.add(new JLabel(""));
+    pane.add(new JLabel(""));
+    var okButton = new JButton("OK");
+    okButton.addActionListener(okAction)
+    pane.add(okButton);
+    var cancelButton = new JButton("Cancel");
+    cancelButton.addActionListener(cancelAction)
+    pane.add(cancelButton);
+
+    win.addWindowListener(
+        function(e, methodName)
+        {
+            if (methodName == "windowOpened")
+                emailField.requestFocus();
+        } );
+
+
+    function okAction()
+    {
+        customer.setEmail(emailField.getText());
+        customer.setFirstName(firstNameField.getText());
+        customer.setLastName(lastNameField.getText());
+        customer.setWorkPhone(workPhoneField.getText());
+        customer.setHomePhone(homePhoneField.getText());
+        customer.setMobilePhone(mobilePhoneField.getText());
+        customer.setAddress(addressField.getText());
+        customer.setCity(cityField.getText());
+        customer.setState(stateField.getText());
+        customer.setPostCode(postCodeField.getText());
+        customer.setCountry(countryField.getText());
+
+        customerManager.saveCustomer(customer);
+        editCustomersAction();
+        win.dispose();
+    }
+
+    function cancelAction()
+    {
+        editCustomersAction();
+        win.dispose();
+    }
+
+    displayFrame(win);
+
+    return;
+}
+
+function editMakePreferencesAction(evt)
+{
+    var id = evt.getActionCommand();
+    var customer = customerManager.getCustomer(id);
+    var name = customer.getFirstName() + " " + customer.getLastName();
+    var win = new Swing.JFrame("Make preferences for: " + name);
+
+    makePreferences = customer.getPreferences();
+    availableMakes = makeManager.getAllMakes();
+
+    var rows = availableMakes.size() + 2;
+    win.setSize(new Awt.Dimension(300, 400));
+    pane = win.getContentPane();
+    pane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    pane.setLayout(new GridLayout(rows, 1, 0, 0));
+
+    for(var i=0; i<makePreferences.size(); i++)
+        System.out.println(">>> " + makePreferences.get(i).getName());
+
+    for(var i=0; i<availableMakes.size(); i++)
+    {
+        var make = availableMakes.get(i);
+        var cbox = new Swing.JCheckBox(make.getName(), makePreferences.contains(make));
+        cbox.addActionListener(cboxAction);
+        pane.add(cbox);
+    }
+
+    pane.add(new JLabel(""));
+    var okButton = new JButton("OK");
+    okButton.addActionListener(okAction)
+    pane.add(okButton);
+
+    win.addWindowListener(
+        function(e, methodName)
+        {
+            if (methodName == "windowOpened")
+                win.requestFocus();
+        } );
+
+    displayFrame(win);
+
+    function cboxAction(evt)
+    {
+        var makeName = evt.getActionCommand();
+        var cb = evt.getSource();
+        var make = makeManager.getMake(makeName);
+
+        if (cb.isSelected())
+            customer.getPreferences().add(make);
+        else
+            customer.getPreferences().remove(make);
+
+        customerManager.saveCustomer(customer);
+
+        return;
+    }
+
+    function okAction()
+    {
+        editCustomersAction();
+        win.dispose();
+    }
+
+    return;
+}
+
+function editCustomersAction()
+{
+    frame.setTitle("Manage Customers");
+
+    frame.setCursor(Awt.Cursor.getPredefinedCursor(Awt.Cursor.WAIT_CURSOR));
+
+    var customers = customerManager.getAllCustomers();
+    var model = new customerTableModel(customers);
+    var amodel = new JavaAdapter(Swing.table.AbstractTableModel, model);
+
+    var smodel = new Uidl.util.TableSorter(amodel, frame);
+    smodel.setWindowSize(0);
+    var table = new Swing.JTable(smodel);
+
+    table.setDefaultRenderer(Lang.Class.forName("javax.swing.JButton"), new Uidl.util.ButtonRenderer());
+    table.setDefaultEditor(Lang.Class.forName("javax.swing.JButton"), new Uidl.util.ButtonEditor(new Swing.JCheckBox()));
+    smodel.setTableHeader(table.getTableHeader());
+    var scrollPane = new Swing.JScrollPane(table);
+    frame.setCursor(Awt.Cursor.getDefaultCursor());
+    addContent(scrollPane);
+
+    return;
+}
+
+function editSpecificCustomerAction()
+{
+    var id = Swing.JOptionPane.showInputDialog("Please enter the customer id");
+    if (id == null)
+        return;
+    var event = new Event.ActionEvent(this, 0, id);
+    editCustomerAction(event);
+    
+    return;
+}
+
+function newCustomerAction()
+{
+    var c = new Uidl.carsales.Customer();
+    var id = customerManager.saveCustomer(c);
+    var event = new Event.ActionEvent(this, 0, id);
+    editCustomerAction(event);
+
+    return;
+}

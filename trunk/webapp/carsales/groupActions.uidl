@@ -1,0 +1,203 @@
+function groupTableModel(mappings)
+{
+    this.columnNames = ["Location", "Product", "Service", "Group", "Remove?"];
+    this.mappings = mappings;
+
+    this.getColumnCount = function()
+    {
+        return this.columnNames.length;
+    }
+
+    this.getRowCount = function()
+    {
+        return this.mappings.size();
+    }
+
+    this.getColumnName = function(col)
+    {
+        return this.columnNames[col];
+    }
+
+    this.getValueAt = function(row, col)
+    {
+        var mapping = mappings.get(row);
+        var p;
+
+        switch(col)
+        {
+        case 0:
+            l = locationManager.loadLocation(company.getCompanyId(), mapping.getLocationId());
+            return l.getLocationName();
+        case 1:
+            p = productManager.getProduct(company, mapping.getProductId());
+            pt = productTranslationManager.translate(p, lang);
+            return pt.getTranslation();
+        case 2:
+            p = productManager.getProduct(company, mapping.getProductId());
+            s = serviceManager.getService(company, mapping.getServiceId(), p);
+            st = serviceTranslationManager.translate(s, lang);
+            return st.getTranslation();
+        case 3:
+            return mapping.getGroupName();
+        case 4:
+            return "Remove";
+        }
+
+        return null;
+    }
+
+    this.getColumnClass = function(c)
+    {
+        if (c == 4)
+            return Lang.Class.forName("javax.swing.JButton");
+        else
+            return Lang.Class.forName("java.lang.String");
+    }
+
+    this.isCellEditable = function(row, col)
+    {
+        if (col < 4)
+            return false;
+        else
+            return true;
+    }
+
+    this.setValueAt = function(value, row, col)
+    {
+        mapping = mappings.get(row);
+
+        switch(col)
+        {
+        case 4:
+            assignmentGroupManager.deleteGroupMapping(mapping);
+            manageGroupsAction();
+            return;
+        }
+        mappings.remove(mapping);
+        fireTableCellUpdated(row, col);
+
+        return;
+    }
+}
+
+function manageGroupsAction()
+{
+    frame.setTitle("Manage Assignment Groups");
+
+    var mappings = assignmentGroupManager.getAssignmentGroupMappings(company);
+    var model = new groupTableModel(mappings);
+    var amodel = new JavaAdapter(Swing.table.AbstractTableModel, model);
+    var smodel = new Uidl.util.TableSorter(amodel, frame);
+    smodel.setWindowSize(10);
+    var table = new Swing.JTable(smodel);
+
+    table.setDefaultRenderer(Lang.Class.forName("javax.swing.JButton"), new Uidl.util.ButtonRenderer());
+    table.setDefaultEditor(Lang.Class.forName("javax.swing.JButton"), new Uidl.util.ButtonEditor(new Swing.JCheckBox()));
+    smodel.setTableHeader(table.getTableHeader());
+    var scrollPane = new Swing.JScrollPane(table);
+    addContent(scrollPane);
+}
+
+function addGroupMappingAction()
+{
+    var win = new Swing.JFrame("Add Assignment Group Mapping");
+
+    var defProd = new Kimbo.criteria.Product();
+    defProd.setId("default");
+    defProd.setName("default");
+    var defProdTrans = new Kimbo.translation.TranslatedProduct();
+    defProdTrans.setLanguage(lang);
+    defProdTrans.setCriterium(defProd);
+    defProdTrans.setTranslation("default");
+
+    var defServ = new Kimbo.criteria.Service();
+    defServ.setId("default");
+    defServ.setName("default");
+    var defServTrans = new Kimbo.translation.TranslatedService();
+    defServTrans.setLanguage(lang);
+    defServTrans.setCriterium(defServ);
+    defServTrans.setTranslation("default");
+
+    var size = [ [0.4, 0.6],
+                 [30, 30, 30, 30, 30] ];
+
+    win.setSize(new Awt.Dimension(600, 210));
+    pane = win.getContentPane();
+    pane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    pane.setLayout(new TableLayout(size));
+
+    // Select Location
+    pane.add(new JLabel("Select Location"), "0, 0");
+    var locations = locationManager.loadLocations(company.getCompanyId());
+    var allLoc = new Kimbo.Location();
+    allLoc.setCompanyId(company.getCompanyId());
+    allLoc.setLocationId("all");
+    allLoc.setLocationName("all");
+    locations.addFirst(allLoc);
+    var locList = new Swing.JComboBox(locations.toArray());
+    pane.add(locList, "1, 0, l, c");
+
+    // Select Product
+    pane.add(new JLabel("Select Product"), "0, 1");
+    var products = productTranslationManager.getProductList(company, lang);
+    products.addFirst(defProdTrans);
+
+    var productList = new Swing.JComboBox(products.toArray());
+    productList.addActionListener(addProductListener);
+    pane.add(productList, "1, 1, l, c");
+
+    // Select Service
+    pane.add(new JLabel("Select Service"), "0, 2");
+    var serviceList = new Swing.JComboBox([defServTrans]);
+    pane.add(serviceList, "1, 2, l, c");
+
+    // Select Group
+    pane.add(new JLabel("Select Assignment Group"), "0, 3");
+    var groups = assignmentGroupManager.getAssignmentGroups(company);
+    var groupList = new Swing.JComboBox(groups.toArray());
+    pane.add(groupList, "1, 3, l, c");
+
+    var cancelButton = new JButton("Cancel");
+    cancelButton.addActionListener(cancelAction)
+    pane.add(cancelButton, "1, 4, r, c");
+
+    var okButton = new JButton("OK");
+    okButton.addActionListener(okAction)
+    pane.add(okButton, "0, 4, l, c");
+
+    displayFrame(win);
+
+    function okAction()
+    {
+        var loc = locList.getSelectedItem();
+        var tp = productList.getSelectedItem();
+        var ts = serviceList.getSelectedItem();
+        var group = groupList.getSelectedItem();
+        assignmentGroupManager.createGroupMapping(company, loc, tp.getProduct(),
+            ts.getService(), group.getGroupName());
+
+        win.dispose();
+        manageGroupsAction();
+    }
+
+    function cancelAction()
+    {
+        win.dispose();
+    }
+
+    function addProductListener(evt)
+    {
+        var cb = evt.getSource();
+        var tp = cb.getSelectedItem();
+        var services = serviceManager.getEnabledServices(company, tp.getProduct());
+        var translations = serviceTranslationManager.translateAll(services, lang);
+        translations.addFirst(defServTrans);
+        pane.remove(serviceList);
+        serviceList = new Swing.JComboBox(translations.toArray());
+        pane.add(serviceList, "1, 2, l, c");
+        serviceList.updateUI();
+        pane.updateUI();
+    }
+
+    return;
+}

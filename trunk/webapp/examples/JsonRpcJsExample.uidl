@@ -1,0 +1,84 @@
+browser.include("packages.uidl");
+
+var hostRoot = "http://" + hostName + ":" + hostPort + "/uidl/";
+System.out.println(">>> " + hostRoot);
+var jsonrpc = new JSONRpcClient(hostRoot + "JSON-RPC");
+
+function aboutAction(evt)
+{
+    Swing.JOptionPane.showMessageDialog(frame, "Eggs aren't supposed to be green.");
+}
+
+function quitAction(evt)
+{
+    System.exit(0);
+}
+
+function createComponents()
+{
+    textField = new Swing.JTextField(20);
+
+    var button = new JButton("Say Hello");
+    button.addActionListener(buttonAction)
+
+    var asyncButton = new JButton("Asynchronous Say Hello");
+    asyncButton.addActionListener(asyncButtonAction)
+
+    pane = new JPanel();
+    pane.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
+    pane.setLayout(new GridLayout(0, 1));
+    pane.add(textField);
+    pane.add(button);
+    pane.add(asyncButton);
+
+    return pane;
+}
+
+function createMenuBar()
+{
+    jMenuBar = new Swing.JMenuBar();
+    jMenuFile = new Swing.JMenu();
+    jMenuFile.setText("File");
+    jMenuFileExit = new Swing.JMenuItem();
+    jMenuFileExit.setText("Exit");
+    jMenuFileExit.addActionListener(quitAction);
+    jMenuHelp = new Swing.JMenu();
+    jMenuHelp.setText("Help");
+    jMenuHelpAbout = new Swing.JMenuItem();
+    jMenuHelpAbout.setText("About");
+    jMenuHelpAbout.addActionListener(aboutAction);
+    
+    appToolbar = new Swing.JToolBar();
+    jMenuFile.add(jMenuFileExit);
+    jMenuHelp.add(jMenuHelpAbout);
+    jMenuBar.add(jMenuFile);
+    jMenuBar.add(jMenuHelp);
+    
+    return jMenuBar;
+}
+
+function buttonAction(evt)
+{
+    var inp = textField.getText();
+    var res = jsonrpc.hello.sayHello(inp);
+    textField.setText(res);
+
+    return;
+}
+
+function buttonCallback(result, exception)
+{
+    textField.setText(result);
+}
+
+function asyncButtonAction(evt)
+{
+    var inp = textField.getText();
+    jsonrpc.delayedHello.sayHello(buttonCallback, inp);
+}
+
+contents = createComponents();
+frame.setLayout(new Awt.FlowLayout());
+frame.add(contents);
+menuBar = createMenuBar();
+frame.setJMenuBar(menuBar);

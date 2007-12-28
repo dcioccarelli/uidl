@@ -1,0 +1,199 @@
+function carTableModel(make, cars)
+{
+    this.columnNames = ["Name", "Description"];
+
+    this.cars = cars;
+
+    this.getColumnCount = function()
+    {
+        return this.columnNames.length;
+    }
+
+    this.getRowCount = function()
+    {
+        return this.cars.size();
+    }
+
+    this.getColumnName = function(col)
+    {
+        return this.columnNames[col];
+    }
+
+    this.getValueAt = function(row, col)
+    {
+        var car = this.cars.get(row);
+
+        switch(col)
+        {
+        case 0:
+            return car.getName();
+        case 1:
+            return car.getDescription();
+        }
+    }
+
+    this.getColumnClass = function(c)
+    {
+        return Lang.Class.forName("java.lang.String");
+    }
+
+    this.isCellEditable = function(row, col)
+    {
+        if (col == 0)
+            return false;
+        else
+            return true;
+    }
+
+    this.setValueAt = function(value, row, col)
+    {
+        car = this.cars.get(row);
+
+        if (col == 1)
+        {
+            car.setDescription(value);
+            if (make == null)
+                makeManager.saveMake(car);
+            else
+            {
+                make.getModels().remove(car);
+                make.getModels().add(car);
+                makeManager.saveMake(make);
+            }
+        }
+
+        // fireTableCellUpdated(row, col);
+        return;
+
+    }
+}
+
+function addCarAction(make)
+{
+    var car, win;
+    if (make == null)
+    {
+        car = new Uidl.carsales.Make();
+        win = new Swing.JFrame("New Make");
+    }
+    else
+    {
+        car = new Uidl.carsales.Model();
+        win = new Swing.JFrame("New Model for " + make.getName());
+    }
+
+
+    win.setSize(new Awt.Dimension(400, 200));
+    pane = win.getContentPane();
+    pane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    pane.setLayout(new GridLayout(4, 2, 0, 0));
+
+    pane.add(new JLabel("Name"));
+    var nameField = new JTextField();
+    pane.add(nameField);
+    pane.add(new JLabel("Description"));
+    var descriptionField = new JTextField();
+    pane.add(descriptionField);
+
+    pane.add(new JLabel(""));
+    pane.add(new JLabel(""));
+    var okButton = new JButton("OK");
+    okButton.addActionListener(okAction)
+    pane.add(okButton);
+    var cancelButton = new JButton("Cancel");
+    cancelButton.addActionListener(cancelAction)
+    pane.add(cancelButton);
+
+    win.addWindowListener(
+        function(e, methodName)
+        {
+            if (methodName == "windowOpened")
+                nameField.requestFocus();
+        } );
+
+
+    function okAction()
+    {
+        car.setName(nameField.getText());
+        car.setDescription(descriptionField.getText());
+
+        if (make != null)
+        {
+            make.getModels().add(car);
+            makeManager.saveMake(make);
+            manageModelsAction(make);
+        }
+        else
+        {
+            makeManager.saveMake(car);
+            manageMakesAction();
+        }
+
+        win.dispose();
+    }
+
+    function cancelAction()
+    {
+        manageMakesAction();
+        win.dispose();
+    }
+
+    displayFrame(win);
+
+    return;
+}
+
+function addMakeAction()
+{
+    addCarAction(null);
+    return;
+}
+
+function addModelAction()
+{
+    var make = chooseMake();
+    if (make == null) return;
+
+    addCarAction(make);
+    return;
+}
+
+function manageMakesAction()
+{
+    frame.setTitle("Manage Makes");
+
+    frame.setCursor(Awt.Cursor.getPredefinedCursor(Awt.Cursor.WAIT_CURSOR));
+    var makes = makeManager.getAllMakes();
+    var model = new carTableModel(null, makes);
+    var amodel = new JavaAdapter(Swing.table.AbstractTableModel, model);
+    var smodel = new Uidl.util.TableSorter(amodel, frame);
+    var table = new Swing.JTable(smodel);
+    smodel.setTableHeader(table.getTableHeader());
+    var scrollPane = new Swing.JScrollPane(table);
+    frame.setCursor(Awt.Cursor.getDefaultCursor());
+    addContent(scrollPane);
+
+    return;
+}
+
+function manageModelsAction(make)
+{
+    if (make instanceof Awt.event.ActionEvent)
+        make = chooseMake();
+
+    if (make == null)
+        return;
+
+    frame.setTitle("Manage Models: " + make.getName());
+    frame.setCursor(Awt.Cursor.getPredefinedCursor(Awt.Cursor.WAIT_CURSOR));
+    var models = make.getModels();
+    var model = new carTableModel(make, models);
+    var amodel = new JavaAdapter(Swing.table.AbstractTableModel, model);
+    var smodel = new Uidl.util.TableSorter(amodel, frame);
+    var table = new Swing.JTable(smodel);
+    var scrollPane = new Swing.JScrollPane(table);
+    frame.setCursor(Awt.Cursor.getDefaultCursor());
+    addContent(scrollPane);
+
+    return;
+}
