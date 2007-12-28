@@ -1,4 +1,3 @@
-
 Traditionally, enterprise applications were built using a client-server approach. As web browsers became more widespread, many application developers preferred to provide a "web interface" as it allowed for transparent deployment of new functionality. This lead to the growth of web applications as we know them today.
 
 The unfortunate side effect of web applications is that web browsers were only ever designed to display static content. This has meant that designing an application to run within a web browser has been a non trivial task and has often lead to applications which are not as responsive or interactive as would have been the case with a rich client version. Thus, whilst web applications provide ease of deployment, they often decrease developer productivity and the overall ease of use of the UI is compromised.
@@ -9,8 +8,8 @@ The UIDL approach is somewhat different in that it uses a Java applet or Java we
 
 UIDL hopes to provide the following benefits:
 
-* A "universal" client which can run anywhere (in a browser, on the desktop) and can be used to render applications written in UIDL. This means that there is no need to worry about deployment or software upgrades.
+  * A "universal" client which can run anywhere (in a browser, on the desktop) and can be used to render applications written in UIDL. This means that there is no need to worry about deployment or software upgrades.
 
-* Mechanisms for providing easy access to server based resources. Ideally, applications can be modified to run with a UIDL interface without extensive additions and without modifying the underlying code. In many cases an application API can be exposed to transparently allow "remoting".
+  * Mechanisms for providing easy access to server based resources. Ideally, applications can be modified to run with a UIDL interface without extensive additions and without modifying the underlying code. In many cases an application API can be exposed to transparently allow "remoting".
 
-* An environment which provides high developer productivity. As UIDL is based on JavaScript (an interpreted language) UIDL scripts can be written and tested quickly. The use of a scripted language for the UI encourages the separation of concerns and allows less skilled developers to build the UI whilst the more senior developers concentrate on the more complex code running on the server.
+  * An environment which provides high developer productivity. As UIDL is based on JavaScript (an interpreted language) UIDL scripts can be written and tested quickly. The use of a scripted language for the UI encourages the separation of concerns and allows less skilled developers to build the UI whilst the more senior developers concentrate on the more complex code running on the server.
