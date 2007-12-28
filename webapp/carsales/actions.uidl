@@ -1,0 +1,142 @@
+var currentContent;
+
+function addContent(content)
+{
+    if (currentContent != null)
+        frame.remove(currentContent);
+    frame.add(content, BorderLayout.CENTER);
+    currentContent = content;
+    frame.updateUI();
+    return;
+}
+
+function displayFrame(win)
+{
+    var screenSize = Awt.Toolkit.getDefaultToolkit().getScreenSize();
+    var frameSize = win.getSize();
+
+    if (frameSize.height > screenSize.height)
+        frameSize.height = screenSize.height;
+    if (frameSize.width > screenSize.width)
+        frameSize.width = screenSize.width;
+    win.setLocation((screenSize.width - frameSize.width) / 2,
+            (screenSize.height - frameSize.height) / 2);
+    win.setVisible(true);
+    win.toFront();
+
+    return;
+}
+
+function chooseMake()
+{
+    var temp = makeManager.getAllMakes();
+    var makes = new Util.ArrayList();
+    for(var i=0; i<temp.size(); i++)
+        makes.add(temp.get(i).getName());
+
+    makeName =  Swing.JOptionPane.showInputDialog(frame,
+                    "Select Make...",
+                    "Select Make",
+                    Swing.JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    makes.toArray(),
+                    null);
+
+    if (makeName == null)
+        return null;
+    else
+        return makeManager.getMake(makeName);
+}
+
+function showStatisticsAction(evt)
+{
+    var customers = customerManager.getAllCustomers();
+    var makes = makeManager.getAllMakes();
+    var models = modelManager.getAllModels();
+
+    Swing.JOptionPane.showMessageDialog(frame,
+    "<html><pre>" +
+    "# Customers: " + customers.size() + "<br>" +
+    "# Makes:     " + makes.size() + "<br>" +
+    "# Models:    " + models.size() +
+    "</pre></html>", "Statistics", Swing.JOptionPane.INFORMATION_MESSAGE);
+}
+
+function aboutAction(evt)
+{
+    Swing.JOptionPane.showMessageDialog(frame,
+    "<html><font color='green' size='4'>CarSales</font><br>" +
+    "Administration Interface<br><br>" +
+    "&copy uidl.net<br></html>");
+}
+
+function quitAction(evt)
+{
+    System.exit(0);
+}
+
+function editCompanyOptionsAction()
+{
+    var possibilities = ["ham", "spam", "yam"];
+    // possibilities = new Array("ham", "spam", "yam");
+    possibilities.push("dogfood");
+    s = Swing.JOptionPane.showInputDialog(frame,
+                        "Select product...",
+                        "Select Product",
+                        Swing.JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        possibilities,
+                        "spam");
+    return;
+}
+
+function editOutageAction() {}
+
+function addOutageAction()
+{
+    var win = new Swing.JFrame("Edit Outage Text");
+
+    var size = [ [0.25, 0.75],
+                 [30, 30, 150, 30] ];
+
+    win.setSize(new Awt.Dimension(600, 300));
+    pane = win.getContentPane();
+    pane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    pane.setLayout(new TableLayout(size));
+
+    pane.add(new JLabel("Start Date"), "0, 0");
+    pane.add(new JLabel("Date?"), "1, 0");
+
+    pane.add(new JLabel("End Date"), "0, 1");
+    pane.add(new JLabel("Date?"), "1, 1");
+
+    pane.add(new JLabel("Outage Information"), "0, 2");
+    var outageText = new Swing.JTextArea();
+    var scrollPane = new Swing.JScrollPane(outageText,
+                    Swing.JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                    Swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    outageText.setEditable(true);
+    pane.add(scrollPane, "1, 2");
+
+    var cancelButton = new JButton("Cancel");
+    cancelButton.addActionListener(cancelAction)
+    pane.add(cancelButton, "1, 3, r, c");
+
+    var okButton = new JButton("OK");
+    okButton.addActionListener(okAction)
+    pane.add(okButton, "0, 3, l, c");
+
+    displayFrame(win);
+
+    function okAction()
+    {
+        win.dispose();
+    }
+
+    function cancelAction()
+    {
+        win.dispose();
+    }
+
+    return;
+}

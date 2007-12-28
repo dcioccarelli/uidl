@@ -1,0 +1,24 @@
+// Remote interfaces for exmaple application
+browser.loadRemoteLibrary("../jar/remoteClasses.jar");
+
+// Libraries for json-rpc-client
+browser.loadRemoteLibrary("../jar/json-rpc-client.jar");
+browser.loadRemoteLibrary("../jar/httpclient.jar");
+browser.loadRemoteLibrary("../jar/json.jar");
+browser.loadRemoteLibrary("../jar/jsonrpc.jar");
+browser.loadRemoteLibrary("../jar/commons-codec.jar");
+browser.loadRemoteLibrary("../jar/commons-logging.jar");
+
+var hostRoot = "http://" + hostName + ":" + hostPort + "/uidl/";
+Client = Packages.org.apache.commons.httpclient;
+JsonRpc = Packages.org.codebistro.jsonrpc;
+JsonRpc.HTTPSession.register(JsonRpc.TransportRegistry.i());
+var httpSession= JsonRpc.TransportRegistry.i().createSession(hostRoot + "JSON-RPC");
+var state = new Client.HttpState();
+httpSession.setState(state);
+client = new JsonRpc.Client(httpSession);
+
+customerManager = client.openProxy("customerManager", Uidl.carsales.CustomerManager);
+makeManager = client.openProxy("makeManager", Uidl.carsales.MakeManager);
+modelManager = client.openProxy("modelManager", Uidl.carsales.ModelManager);
+optionManager = client.openProxy("optionManager", Uidl.carsales.OptionManager);

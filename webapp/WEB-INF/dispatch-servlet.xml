@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!-- ============= Only Required for Spring Remoting ============ -->
+
+<beans>
+    <bean name="/userManager" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service"><ref bean="userManager"/></property>
+        <property name="serviceInterface"><value>net.uidl.example.UserManager</value></property>
+    </bean>
+    
+    <bean name="/customerManager" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="customerManager"/>
+        <property name="serviceInterface"><value>net.uidl.carsales.CustomerManager</value></property>
+    </bean>
+
+    <bean name="/makeManager" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="makeManager"/>
+        <property name="serviceInterface"><value>net.uidl.carsales.MakeManager</value></property>
+    </bean>
+
+    <bean name="/modelManager" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="modelManager"/>
+        <property name="serviceInterface"><value>net.uidl.carsales.ModelManager</value></property>
+    </bean>
+
+    <bean name="/optionManager" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="optionManager"/>
+        <property name="serviceInterface"><value>net.uidl.carsales.OptionManager</value></property>
+    </bean>
+
+</beans>

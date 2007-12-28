@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for UIDL Browser -->
+<jnlp
+  spec="1.0+"
+  codebase="http://localhost:8080/uidl/browser/"
+  href="uidl.jnlp">
+  <information>
+    <title>UIDL Browser</title>
+    <vendor>www.uidl.net</vendor>
+    <homepage href="http://www.uidl.net/"/>
+    <description>UIDL Browser</description>
+    <description kind="short">A browser for displaying rich client applications written in the UIDL syntax.</description>
+    <icon href="images/logo.gif"/>
+    <offline-allowed/>
+    <shortcut>
+        <desktop/>
+        <menu submenu="UIDL"/>
+    </shortcut>
+  </information>
+  <security>
+      <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.5+"/>
+    <jar href="uidl.jar" download="eager"/>
+    <jar href="js.jar" download="eager"/>
+  </resources>
+  <application-desc main-class="net.uidl.Browser">
+    <argument>http://localhost:8080/uidl/examples.html</argument>
+  </application-desc>
+</jnlp>

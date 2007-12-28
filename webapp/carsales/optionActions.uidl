@@ -1,0 +1,244 @@
+function editOptionTableModel(options)
+{
+    this.columnNames = ["Option Number", "Option Text", "Option Description"];
+    this.options = options;
+
+    this.getColumnCount = function()
+    {
+        return this.columnNames.length;
+    }
+
+    this.getRowCount = function()
+    {
+        return this.options.size();
+    }
+
+    this.getColumnName = function(col)
+    {
+        return this.columnNames[col];
+    }
+
+    this.getValueAt = function(row, col)
+    {
+        var option = this.options.get(row);
+
+        switch(col)
+        {
+        case 0:
+            return new Lang.Integer(option.getId()).toString();
+        case 1:
+            return option.getName();
+        case 2:
+            return option.getDescription();
+        }
+    }
+
+    this.getColumnClass = function(c)
+    {
+        return Lang.Class.forName("java.lang.String");
+    }
+
+    this.isCellEditable = function(row, col)
+    {
+        if (col == 0)
+            return false;
+        else
+            return true;
+    }
+
+    this.setValueAt = function(value, row, col)
+    {
+        var option = this.options.get(row);
+
+        switch(col)
+        {
+        case 1:
+            option.setName(value);
+            break;
+        case 2:
+            option.setDescription(value);
+            break;
+        }
+        optionManager.saveOption(option);
+
+        return;
+    }
+}
+
+function addMakeOptionAction()
+{
+    var makes = makeManager.getAllMakes();
+    addOptionAction("make", makes);
+}
+
+function addModelOptionAction()
+{
+    var make = chooseMake();
+    if (make == null) return;
+
+    addOptionAction("model", make.getModels());
+}
+
+function addOptionAction(type, cars)
+{
+    if (type == "make")
+        ctype = "Make";
+    else
+        ctype = "Model";
+
+    var win = new Swing.JFrame("Add " + ctype + " Option");
+
+    var size = [ [0.25, 0.75],
+                 [25, 25, 100, 25, 25, 50] ];
+    win.setSize(new Awt.Dimension(600, 300));
+    pane = win.getContentPane();
+    pane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    pane.setLayout(new TableLayout(size));
+
+    pane.add(new JLabel("Select " + ctype), "0, 0");
+    var carList = new Swing.JComboBox(cars.toArray());
+    carList.addActionListener(addOptionListener);
+    pane.add(carList, "1, 0, l, c");
+
+    pane.add(new JLabel("Existing Options"), "0, 1");
+
+    var existingOptions = new Swing.JLabel();
+    var scrollPane = new Swing.JScrollPane(existingOptions,
+                        Swing.JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                        Swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    // existingOptions.setEditable(false);
+    pane.add(scrollPane, "0, 2, 1, 2");
+
+    pane.add(new JLabel("Select New Option"), "0, 3");
+    var allOptions = optionManager.getAllOptions();
+    var model = new Swing.DefaultComboBoxModel(allOptions.toArray());
+    var optionList = new Swing.JComboBox(model);
+    pane.add(optionList, "0, 4, 1, 4, l, c");
+
+    var cancelButton = new JButton("Cancel");
+    cancelButton.addActionListener(cancelAction)
+    pane.add(cancelButton, "1, 5, r, c");
+
+    var okButton = new JButton("OK");
+    okButton.addActionListener(okAction)
+    pane.add(okButton, "0, 5, l, c");
+
+    carList.setSelectedIndex(0);
+    displayFrame(win);
+    
+    function okAction()
+    {
+        option = optionList.getSelectedItem();
+        car = carList.getSelectedItem();
+        System.out.println(car.getName() + ": " + option.getName());
+        car.getOptions().add(option);
+        if (type == "make")
+            makeManager.saveMake(car);
+        else
+            modelManager.saveModel(car);
+        win.dispose();
+    }
+
+    function cancelAction()
+    {
+        win.dispose();
+    }
+
+    function addOptionListener(evt)
+    {
+        var carName = evt.getSource().getSelectedItem();
+        var availableOptions = optionManager.getAllOptions()
+        if (type == "make")
+        {
+            var make = makeManager.getMake(carName);
+            var options = make.getOptions();
+        }
+        else
+        {
+            var model = modelManager.getModel(carName);
+            var options = model.getOptions();
+        }
+
+        var temp = "<html><ul>";
+        for(var i=0; i<options.size(); i++)
+        {
+            temp += "<li>" + options.get(i).getName() + ": " + options.get(i).getDescription();
+            availableOptions.remove(options.get(i));
+        }
+        temp += "</ul></html>";
+        existingOptions.setText(temp);
+        model = new Swing.DefaultComboBoxModel(availableOptions.toArray());
+        optionList.setModel(model);
+    }
+
+    return;
+}
+
+function manageAllOptionsAction()
+{
+    frame.setTitle("Manage All Options");
+
+    frame.setCursor(Awt.Cursor.getPredefinedCursor(Awt.Cursor.WAIT_CURSOR));
+    var options = optionManager.getAllOptions();
+    var model = new editOptionTableModel(options);
+    var amodel = new JavaAdapter(Swing.table.AbstractTableModel, model);
+    var smodel = new Uidl.util.TableSorter(amodel, frame);
+    var table = new Swing.JTable(smodel);
+    smodel.setTableHeader(table.getTableHeader());
+    var scrollPane = new Swing.JScrollPane(table);
+    frame.setCursor(Awt.Cursor.getDefaultCursor());
+    addContent(scrollPane);
+}
+
+function addNewOptionAction()
+{
+    var win = new Swing.JFrame("Add New Option");
+
+    var size = [ [0.25, 0.75],
+                 [25, 100, 25] ];
+
+    win.setSize(new Awt.Dimension(600, 210));
+    pane = win.getContentPane();
+    pane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+    pane.setLayout(new TableLayout(size));
+
+    pane.add(new JLabel("Option Text"), "0, 0");
+    var optionName = new Swing.JTextField(20);
+    pane.add(optionName, "1, 0");
+
+    pane.add(new JLabel("Option Description"), "0, 1");
+
+    var optionDescription = new Swing.JTextArea();
+    scrollPane = new Swing.JScrollPane(optionDescription,
+                    Swing.JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                    Swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    optionDescription.setEditable(true);
+    pane.add(scrollPane, "1, 1");
+
+    var cancelButton = new JButton("Cancel");
+    cancelButton.addActionListener(cancelAction)
+    pane.add(cancelButton, "1, 2, r, c");
+
+    var okButton = new JButton("OK");
+    okButton.addActionListener(okAction)
+    pane.add(okButton, "0, 2, l, c");
+
+    displayFrame(win);
+
+    function okAction()
+    {
+        var o = new Uidl.carsales.Option();
+        o.setName(optionName.getText());
+        o.setDescription(optionDescription.getText());
+        optionManager.saveOption(o);
+        win.dispose();
+        manageAllOptionsAction();
+    }
+
+    function cancelAction()
+    {
+        win.dispose();
+    }
+
+    return;
+}

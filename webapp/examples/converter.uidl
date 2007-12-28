@@ -1,0 +1,78 @@
+Swing = Packages.javax.swing;
+Event = java.awt.event;
+Awt = java.awt;
+Lang = java.lang;
+Util = java.util;
+
+System = Lang.System;
+JPanel = Swing.JPanel;
+JButton = Swing.JButton;
+
+var labelPrefix = "Amount in Italian lira: ";
+
+function aboutAction(evt)
+{
+    Swing.JOptionPane.showMessageDialog(frame, "Eggs aren't supposed to be green.");
+}
+
+function quitAction(evt)
+{
+    System.exit(0);
+}
+
+function createComponents()
+{
+    textField = new Swing.JTextField(20);
+
+    label = new Swing.JLabel(labelPrefix + "0");
+    button = new JButton("Convert dollars to lira");
+    button.setMnemonic(Event.KeyEvent.VK_I);
+    button.addActionListener(buttonAction)
+    label.setLabelFor(button);
+
+    pane = new JPanel();
+    pane.setBorder(Swing.BorderFactory.createEmptyBorder(30, 30, 10, 30));
+    pane.setLayout(new Awt.GridLayout(0, 1));
+    pane.add(textField);
+    pane.add(button);
+    pane.add(label);
+
+    return pane;
+}
+
+function createMenuBar()
+{
+    jMenuBar = new Swing.JMenuBar();
+    jMenuFile = new Swing.JMenu();
+    jMenuFile.setText("File");
+    jMenuFileExit = new Swing.JMenuItem();
+    jMenuFileExit.setText("Exit");
+    jMenuFileExit.addActionListener(quitAction);
+    jMenuHelp = new Swing.JMenu();
+    jMenuHelp.setText("Help");
+    jMenuHelpAbout = new Swing.JMenuItem();
+    jMenuHelpAbout.setText("About");
+    jMenuHelpAbout.addActionListener(aboutAction);
+    
+    appToolbar = new Swing.JToolBar();
+    jMenuFile.add(jMenuFileExit);
+    jMenuHelp.add(jMenuHelpAbout);
+    jMenuBar.add(jMenuFile);
+    jMenuBar.add(jMenuHelp);
+    
+    return jMenuBar;
+}
+
+function buttonAction(evt)
+{
+    inp = textField.getText();
+    amount = inp * 1000;
+
+    label.setText(labelPrefix + amount);
+}
+
+contents = createComponents();
+frame.setLayout(new Awt.FlowLayout());
+frame.add(contents);
+menuBar = createMenuBar();
+frame.setJMenuBar(menuBar);

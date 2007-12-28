@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--    This file is loaded by the UIDL client in order to create proxy objects corresponding
+        to the server implementations exposed via the Spring framework running on the server
+-->
+
+<beans>
+    <bean id="userManager" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>http://${server}:${port}/uidl/remote/userManager</value>
+        </property>
+        <property name="serviceInterface">
+            <value>net.uidl.example.UserManager</value>
+        </property>
+    </bean>
+</beans>

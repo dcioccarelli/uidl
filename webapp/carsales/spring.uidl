@@ -1,0 +1,11 @@
+// Remote interfaces for exmaple application
+browser.loadRemoteLibrary("../jar/remoteClasses.jar");
+// Minimal client libraries for Spring
+browser.loadRemoteLibrary("../jar/spring-client.jar");
+
+var helper = new Uidl.SpringHelper(hostName, hostPort, hostPrefix);
+var context = helper.loadRemoteConfig("applicationContext.xml");
+var customerManager = context.getBean("customerManager");
+var makeManager = context.getBean("makeManager");
+var modelManager = context.getBean("modelManager");
+var optionManager = context.getBean("optionManager");

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean id="customerManager" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>http://${server}:${port}/uidl/remote/customerManager</value>
+        </property>
+        <property name="serviceInterface">
+            <value>net.uidl.carsales.CustomerManager</value>
+        </property>
+    </bean>
+
+    <bean id="makeManager" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>http://${server}:${port}/uidl/remote/makeManager</value>
+        </property>
+        <property name="serviceInterface">
+            <value>net.uidl.carsales.MakeManager</value>
+        </property>
+    </bean>
+
+    <bean id="modelManager" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>http://${server}:${port}/uidl/remote/modelManager</value>
+        </property>
+        <property name="serviceInterface">
+            <value>net.uidl.carsales.ModelManager</value>
+        </property>
+    </bean>
+
+    <bean id="optionManager" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>http://${server}:${port}/uidl/remote/optionManager</value>
+        </property>
+        <property name="serviceInterface">
+            <value>net.uidl.carsales.OptionManager</value>
+        </property>
+    </bean>
+</beans>
+

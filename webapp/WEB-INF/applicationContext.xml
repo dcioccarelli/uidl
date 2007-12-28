@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <!-- ================= CarSales Example ==================== -->
+    <!-- Configuration for a container managed JDBC datasource -->
+    <!--
+    <bean id="carsalesDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/carsales"/>
+    </bean>
+    -->
+
+    <!-- Configuration for an application managed JDBC datasource -->
+    <bean id="carsalesDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+        <property name="url" value="jdbc:derby:C:/cep/uidl/db/carsales;create=true"/>
+        <property name="username" value=""/>
+        <property name="password" value=""/>
+    </bean>
+
+    <bean id="carsalesSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="carsalesDataSource"></property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
+                <!-- uncomment the next line if you want to get hibernate to recreate the DB schema -->
+                <!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+            </props>
+        </property>
+        <property name="annotatedClasses">
+          <list>
+              <value>net.uidl.carsales.Customer</value>
+              <value>net.uidl.carsales.Make</value>
+              <value>net.uidl.carsales.Model</value>
+              <value>net.uidl.carsales.Option</value>
+          </list>
+        </property>
+    </bean>
+
+    <bean id="customerManager" class="net.uidl.carsales.CustomerManagerImpl">
+        <property name="sessionFactory"><ref local="carsalesSessionFactory"/></property>
+    </bean>
+
+    <bean id="makeManager" class="net.uidl.carsales.MakeManagerImpl">
+        <property name="sessionFactory"><ref local="carsalesSessionFactory"/></property>
+    </bean>
+
+    <bean id="modelManager" class="net.uidl.carsales.ModelManagerImpl">
+        <property name="sessionFactory"><ref local="carsalesSessionFactory"/></property>
+    </bean>
+
+    <bean id="optionManager" class="net.uidl.carsales.OptionManagerImpl">
+        <property name="sessionFactory"><ref local="carsalesSessionFactory"/></property>
+    </bean>
+    <!-- ================= End CarSales Example ==================== -->
+
+    <!-- ================= Begin Spring Example ==================== -->
+    <bean   id="userManager"
+            class="net.uidl.example.UserManagerImpl">
+    </bean>
+    <!-- ================= End Spring Example ==================== -->
+
+    <!-- ================= Begin JSON-RPC-JS Example ==================== -->
+    <bean   id="hello"
+            class="net.uidl.example.Hello">
+    </bean>
+
+    <bean   id="delayedHello"
+            class="net.uidl.example.DelayedHello">
+    </bean>
+    <!-- ================= End JSON-RPC-JS Example ==================== -->
+
+    <!-- ================= Expose Services via JSON-RPC ==================== -->
+    <bean   id="jsonRpcExporter"
+            class="net.uidl.util.JsonRpcExporter"
+            init-method="init">
+        <property name="jsonObjects">
+        <map>
+            <entry><key><value>userManager</value></key><ref bean="userManager"/></entry>
+            <entry><key><value>hello</value></key><ref bean="hello"/></entry>
+            <entry><key><value>delayedHello</value></key><ref bean="delayedHello"/></entry>
+            <entry><key><value>customerManager</value></key><ref bean="customerManager"/></entry>
+            <entry><key><value>makeManager</value></key><ref bean="makeManager"/></entry>
+            <entry><key><value>modelManager</value></key><ref bean="modelManager"/></entry>
+            <entry><key><value>optionManager</value></key><ref bean="optionManager"/></entry>
+        </map>
+        </property>
+    </bean>
+
+</beans>

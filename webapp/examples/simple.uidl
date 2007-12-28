@@ -1,0 +1,13 @@
+Awt = java.awt;
+Swing = Packages.javax.swing;
+JLabel = Swing.JLabel;
+
+frame.setLayout(new Awt.BorderLayout());
+frame.setTitle("Very Simple Administration");
+var l = new JLabel(
+    "<html><p align='center'>Welcome to a<br>" +
+    "<font size='7' color='green'>VERY SIMPLE</font><br><br>" +
+    "UIDL Application</p></html>");
+l.setHorizontalAlignment(Swing.SwingConstants.CENTER);
+frame.add(l);
+

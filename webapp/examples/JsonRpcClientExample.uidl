@@ -1,0 +1,125 @@
+// Remote interfaces for exmaple application
+browser.loadRemoteLibrary("../jar/remoteClasses.jar");
+
+// Libraries for json-rpc-client
+browser.loadRemoteLibrary("../jar/json-rpc-client.jar");
+browser.loadRemoteLibrary("../jar/httpclient.jar");
+browser.loadRemoteLibrary("../jar/json.jar");
+browser.loadRemoteLibrary("../jar/jsonrpc.jar");
+browser.loadRemoteLibrary("../jar/commons-codec.jar");
+browser.loadRemoteLibrary("../jar/commons-logging.jar");
+
+browser.include("packages.uidl");
+
+function UserTableModel(users)
+{
+    this.columnNames = ["First Name", "Last Name", "e-mail"];
+
+    this.users = users;
+
+    this.getColumnCount = function()
+    {
+        return this.columnNames.length;
+    }
+
+    this.getRowCount = function()
+    {
+        return this.users.size();
+    }
+
+    this.getColumnName = function(col)
+    {
+        return this.columnNames[col];
+    }
+
+    this.getValueAt = function(row, col)
+    {
+        var user = this.users.get(row);
+
+        switch(col)
+        {
+        case 0:
+            return user.getFirstName();
+        case 1:
+            return user.getLastName();
+        case 2:
+            return user.getEmail();
+        }
+    }
+
+    this.getColumnClass = function(c)
+    {
+        return Lang.Class.forName("java.lang.String");
+    }
+
+    this.isCellEditable = function(row, col)
+    {
+        return false;
+    }
+
+    this.setValueAt = function(value, row, col)
+    {
+        // Example code only as cells are set to non-editable.
+
+        System.out.println("Setting value at " + row + "," + col
+                           + " to " + value
+                           + " (an instance of "
+                           + value.getClass() + ")");
+    }
+}
+
+
+function aboutAction(evt)
+{
+    Swing.JOptionPane.showMessageDialog(frame, "Eggs aren't supposed to be green.");
+}
+
+function quitAction(evt)
+{
+    System.exit(0);
+}
+
+function createMenuBar()
+{
+    jMenuBar = new Swing.JMenuBar();
+    jMenuFile = new Swing.JMenu();
+    jMenuFile.setText("File");
+    jMenuFileExit = new Swing.JMenuItem();
+    jMenuFileExit.setText("Exit");
+    jMenuFileExit.addActionListener(quitAction);
+    jMenuHelp = new Swing.JMenu();
+    jMenuHelp.setText("Help");
+    jMenuHelpAbout = new Swing.JMenuItem();
+    jMenuHelpAbout.setText("About");
+    jMenuHelpAbout.addActionListener(aboutAction);
+    
+    appToolbar = new Swing.JToolBar();
+    jMenuFile.add(jMenuFileExit);
+    jMenuHelp.add(jMenuHelpAbout);
+    jMenuBar.add(jMenuFile);
+    jMenuBar.add(jMenuHelp);
+    
+    return jMenuBar;
+}
+
+var hostRoot = "http://" + hostName + ":" + hostPort + "/uidl/";
+Client = Packages.org.apache.commons.httpclient;
+JsonRpc = Packages.org.codebistro.jsonrpc;
+JsonRpc.HTTPSession.register(JsonRpc.TransportRegistry.i());
+var httpSession= JsonRpc.TransportRegistry.i().createSession(hostRoot + "JSON-RPC");
+var state = new Client.HttpState();
+httpSession.setState(state);
+client = new JsonRpc.Client(httpSession);
+
+var userManager = client.openProxy("userManager", Uidl.example.UserManager);
+
+var users = userManager.getUsers();
+var model = new UserTableModel(users);
+var amodel = new JavaAdapter(Swing.table.AbstractTableModel, model);
+var table = new Swing.JTable(amodel);
+var scrollPane = new Swing.JScrollPane(table);
+
+frame.setLayout(new Awt.BorderLayout());
+frame.add(scrollPane, BorderLayout.CENTER);
+menuBar = createMenuBar();
+frame.setJMenuBar(menuBar);
