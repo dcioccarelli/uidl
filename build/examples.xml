@@ -1,0 +1,90 @@
+<project name="UIDL Example Applications" default="jar" basedir=".">
+
+<!-- :::::::::::::: Configurable Properties :::::::::::::::::::: -->
+
+<!-- Dealer of app server JARs (servlet.jar, etc.) -->
+<property name="outputJar" value="examples.jar"/>
+<property name="remoteClassJar" value="remoteClasses.jar"/>
+<property name="examplesLibDir" value="../webapp/examples/lib"/>
+<property name="webLibDir" value="../webapp/WEB-INF/lib"/>
+<property name="webClassesDir" value="../webapp/WEB-INF/classes"/>
+<property name="libDir" value="../lib"/>
+<property name="exampleSourceDir" value="../examples"/>
+<property name="uidlSourceDir" value="../src"/>
+<property name="classDir" value="../classes"/>
+<property name="remoteInterfaceFiles" value="remoteInterface.txt"/>
+<property name="deployDir" value="../deploy"/>
+<property name="warFile" value="uidl.war"/>
+
+<!-- :::::::::::::::::::::::: preferences paths ::::::::::::::::::::::: -->
+
+   <path id="classDirpath">
+      <fileset dir="${libDir}">
+         <patternset>
+            <include name="**/*.jar"/>
+         </patternset>
+      </fileset>
+   </path>
+
+   <property name="classDirpath" refid="classDirpath"/>
+
+<!-- :::::::::::::::::::::::: targets ::::::::::::::::::::::: -->
+
+<target name="classpathInfo" description="Display current application classpath">
+   <echo>
+   ----------------------------
+   ${classDirpath}
+   ----------------------------
+   </echo>
+</target>
+
+<target name="copyResources" description="Copies resources files to classDir">
+   <copy todir="${classDir}" >
+      <fileset dir="${exampleSourceDir}" >
+         <include name="**/*.properties"/>
+         <include name="**/*.gif"/>
+         <include name="**/*.js"/>
+         <include name="**/*.xml"/>
+      </fileset>
+   </copy>
+</target>
+
+<target name="compile" depends="copyResources" description="Compile core classes">
+   <javac srcdir="${exampleSourceDir}:${uidlSourceDir}"
+          destdir="${classDir}"
+          debug="on"
+          deprecation="off"
+          optimize="on"
+          source="1.5">
+      <classpath refid="classDirpath"/>
+   </javac>
+</target>
+
+<target name="jar" depends="compile" description="Create a .jar file from core classes">
+   <delete file="${webLibDir}/${outputJar}" verbose="true"/>
+   <jar destfile="${webLibDir}/${outputJar}"
+        basedir="${classDir}"/>
+</target>
+
+<target name="remoteClassJar" depends="compile" description="Create a .jar file for the remote classes">
+   <delete file="${examplesLibDir}/${remoteClassJar}" verbose="true"/>
+   <jar jarfile="${examplesLibDir}/${remoteClassJar}"
+        basedir="${classDir}"
+        includesfile="${remoteInterfaceFiles}"/>
+</target>
+
+<target name="clean" description="Delete built files">
+   <delete includeEmptyDirs="true" failonerror="false">
+       <fileset dir="${classDir}" includes="**/*"/>
+       <fileset dir="${webClassesDir}" includes="**/*"/>
+   </delete>
+</target>
+
+<target name="war" depends="clean,jar" description="Create a WAR file to deploy the application">
+   <delete file="${deployDir}/${warFile}" verbose="true"/>
+   <war warfile="${deployDir}/${warFile}" webxml="../webapp/WEB-INF/web.xml">
+     <fileset dir="../webapp" includes="**"/>
+   </war>
+</target>
+
+</project>
