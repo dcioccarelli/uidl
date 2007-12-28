@@ -1,0 +1,10 @@
+net/uidl/example/User.class
+net/uidl/example/UserManager.class
+net/uidl/carsales/Customer.class
+net/uidl/carsales/CustomerManager.class
+net/uidl/carsales/Make.class
+net/uidl/carsales/MakeManager.class
+net/uidl/carsales/Model.class
+net/uidl/carsales/ModelManager.class
+net/uidl/carsales/Option.class
+net/uidl/carsales/OptionManager.class

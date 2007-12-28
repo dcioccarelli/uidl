@@ -1,0 +1,76 @@
+<project name="UIDL Browser" default="signedjar" basedir=".">
+
+<!-- :::::::::::::: Configurable Properties :::::::::::::::::::: -->
+
+<property name="clientJar" value="uidl.jar"/>
+<property name="outputDir" value="../webapp/browser"/>
+<property name="libDir" value="../lib"/>
+<property name="sourceDir" value="../src"/>
+<property name="classDir" value="../classes"/>
+
+<!-- :::::::::::::::::::::::: preferences paths ::::::::::::::::::::::: -->
+
+   <path id="classDirpath">
+      <fileset dir="${libDir}">
+         <patternset>
+            <include name="**/*.jar"/>
+         </patternset>
+      </fileset>
+   </path>
+
+   <property name="classDirpath" refid="classDirpath"/>
+
+<!-- :::::::::::::::::::::::: targets ::::::::::::::::::::::: -->
+
+<target name="classpathInfo" description="Display current application classpath">
+   <echo>
+   ----------------------------
+   ${classDirpath}
+   ----------------------------
+   </echo>
+</target>
+
+<target name="copyResources" description="Copies .properties files to classDir">
+   <copy todir="${classDir}" >
+      <fileset dir="${sourceDir}" >
+         <include name="**/*.properties"/>
+         <include name="**/*.gif"/>
+         <include name="**/*.js"/>
+         <include name="**/*.xml"/>
+      </fileset>
+   </copy>
+</target>
+
+<target name="compile" depends="copyResources" description="Compile core classes">
+   <javac srcdir="${sourceDir}"
+          destdir="${classDir}"
+          debug="on"
+          deprecation="off"
+          optimize="on"
+          excludes="net/uidl/example/**"
+          source="1.6">
+      <classpath refid="classDirpath"/>
+   </javac>
+</target>
+
+<target name="jar" depends="compile" description="Create a .jar file from core classes">
+   <delete file="${outputDir}/${clientJar}" verbose="true"/>
+   <jar destfile="${outputDir}/${clientJar}"
+        basedir="${classDir}"/>
+</target>
+
+<target name="signedjar" depends="jar" description="Create a .jar file from UIDL browser classes">
+   <!-- You will need to change the alias and password to
+        suit your keystore -->
+   <signjar alias="dominic" storepass="dominic">
+        <fileset dir="${outputDir}/" includes="**/*.jar"/>
+   </signjar>
+</target>
+
+<target name="clean" description="Delete built files">
+   <delete includeEmptyDirs="true" failonerror="false">
+      <fileset dir="${classDir}" includes="**/*"/>
+   </delete>
+</target>
+
+</project>
