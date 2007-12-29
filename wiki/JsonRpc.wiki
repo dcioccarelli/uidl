@@ -13,7 +13,7 @@ JSONRPCBridge.getGlobalBridge().registerObject("hello", hello);
 
 This will make the "Hello" object accessible from UIDL clients using the JSON RPC protocol.
 
-Alternatively, the "net.uidl.util.JsonRpcExporter" service can be used to register Spring hosted objects. This is the technique employed by the bundled example applications.
+*Alternatively, the JsonRpcExporter service can be used to register Spring hosted objects.* This is the technique employed by the bundled example applications.
 
 In order to access the object from a UIDL script, the following code can be used:
 
