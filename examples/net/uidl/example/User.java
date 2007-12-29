@@ -2,6 +2,12 @@ package net.uidl.example;
 
 import java.io.Serializable;
 
+/**
+ * User entity object for UserManager example
+ *
+ * @author  Dominic Cioccarelli (uidl.net)
+ * @version 1.0
+ */
 public class User implements Serializable
 {
     private String firstName;

@@ -3,6 +3,12 @@ package net.uidl.example;
 import java.util.List;
 import java.util.LinkedList;
 
+/**
+ * Implementation for UserManager example
+ *
+ * @author  Dominic Cioccarelli (uidl.net)
+ * @version 1.0
+ */
 public class UserManagerImpl implements UserManager
 {
     public List getUsers()
