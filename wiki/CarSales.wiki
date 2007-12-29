@@ -1,3 +1,4 @@
+#labels Featured
 The CarSales example application is intended as a showcase for UIDL technology. It uses a combination of Spring and Hibernate on the server side to implement an application which manages customer's automotive preferences. The database schema for the example is presented [http://www.uidl.net/doc/images/dbSchema.GIF here].
 
 There is a one to one correspondence between the Java objects and their respective tables. All relationships are managed using EJB 3 persistence annotations and the entire database schema can be regenerated at any time directly from the object model. The association tables (e.g. customer_make) are generated automatically and are required for N:N mappings. Obviously these tables don't directly map to any Java objects.
