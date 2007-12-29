@@ -5,6 +5,7 @@ To embed the UIDL browser in an applet, you will need to include the following c
 <applet name="uidlApplet" codebase="."
         archive="uidl.jar,js.jar"
         code="net.uidl.BrowserApplet.class" width="100%" height="95%" alt="No applet">
+}}}
 
 If you would like the applet to automatically load a UIDL page (even from a different server) and not display a navigation bar, then simply include the address of the page as a parameter to the applet as follows: 
 
