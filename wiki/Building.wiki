@@ -1,3 +1,4 @@
+#labels Featured
 If you intend to modify or recompile the UIDL browser code, you will need to be able to build the `uidl.jar` file. Note that it is very important to sign all the JAR files which will be loaded when the browser is run as an applet or as a Java Web Start application. This is typically just `uidl.jar` and `js.jar` (Rhino).
 
 If you wish to distribute the UIDL browser (or a UIDL application) in a production environment then it is advisable to sign all the required JAR files using a proper digital certificate issued from a trusted certificate authority. The build script (`build.xml`) can be modified with the appropriate certificate information if required.
