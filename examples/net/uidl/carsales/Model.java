@@ -4,6 +4,12 @@ import javax.persistence.*;
 import java.util.List;
 import java.io.Serializable;
 
+/**
+ * Model entity object implementation for carsales example application
+ *
+ * @author  Dominic Cioccarelli (uidl.net)
+ * @version 1.0
+ */
 @Entity
 public class Model implements Serializable
 {

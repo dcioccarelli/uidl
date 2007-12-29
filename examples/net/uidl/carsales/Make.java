@@ -4,6 +4,12 @@ import javax.persistence.*;
 import java.util.List;
 import java.io.Serializable;
 
+/**
+ * Make entity object for carsales example application
+ *
+ * @author  Dominic Cioccarelli (uidl.net)
+ * @version 1.0
+ */
 @Entity
 public class Make implements Serializable
 {

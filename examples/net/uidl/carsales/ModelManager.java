@@ -3,9 +3,10 @@ package net.uidl.carsales;
 import java.util.List;
 
 /**
- * User: doci
- * Date: 27/12/2007
- * Time: 23:39:59
+ * ModelManager interface for carsales example application
+ *
+ * @author  Dominic Cioccarelli (uidl.net)
+ * @version 1.0
  */
 public interface ModelManager
 {

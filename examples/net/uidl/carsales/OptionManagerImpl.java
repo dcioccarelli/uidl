@@ -7,6 +7,12 @@ import net.uidl.util.BeanUtils;
 
 import java.util.List;
 
+/**
+ * OptionManager implementation for carsales example application
+ *
+ * @author  Dominic Cioccarelli (uidl.net)
+ * @version 1.0
+ */
 public class OptionManagerImpl extends HibernateDaoSupport implements OptionManager
 {
     public Option getOption(int id) throws Exception

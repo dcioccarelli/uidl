@@ -3,9 +3,10 @@ package net.uidl.carsales;
 import java.util.List;
 
 /**
- * User: doci
- * Date: 27/12/2007
- * Time: 10:19:43
+ * MakeManager interface for carsales example application
+ *
+ * @author  Dominic Cioccarelli (uidl.net)
+ * @version 1.0
  */
 public interface MakeManager
 {
