@@ -1,0 +1,7 @@
+JavaScript is a scripting language most often used for client-side web development. It was the originating implementation of the ECMAScript standard. As such, it is a dynamic, weakly typed, prototype-based language with first-class functions.
+
+JavaScript was influenced by many languages and was designed to have a similar look to Java, but be easier for non-programmers to work with. The language is best known for its use in websites (as client-side JavaScript), but is also used to enable scripting access to objects embedded in other applications.
+
+Despite the name, JavaScript is essentially unrelated to the Java programming language, though both have a common debt to C syntax. The language was renamed from LiveScript in a co-marketing deal between Netscape and Sun in exchange for Netscape bundling Sun's Java runtime with their browser, which was dominant at the time. The key design principles within JavaScript are inherited from the Self programming language.
+
+"JavaScript" is a trademark of Sun Microsystems. It was used under license for technology invented and implemented by Netscape Communications and current entities such as the Mozilla Foundation.
