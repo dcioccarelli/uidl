@@ -5,6 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * ButtonEditor for displaying buttons in JTables.
+ *
+ * @author  Dominic Cioccarelli (uidl.net)
+ * @version 1.0
+ */
 public class ButtonEditor extends DefaultCellEditor
 {
     protected JButton button;
