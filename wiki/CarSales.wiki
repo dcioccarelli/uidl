@@ -5,7 +5,7 @@ There is a one to one correspondence between the Java objects and their respecti
 
 To run the CarSales application, first ensure that your [http://code.google.com/p/uidl/wiki/Running database is configured correctly] and then simply point your UIDL browser at the CarSales example URL (e.g. `http://localhost:8080/uidl/carsales/carsales.uidl`).
 
-The CarSales examples allows of use of either Spring remoting or JsonRpc as a transport layer. The example also reveals how transparently the remoting implementation can be switched.
+The CarSales examples allows of use of either SpringRemoting or JsonRpc as a transport layer. The example also reveals how transparently the remoting implementation can be switched.
 
 The UIDL source code for the application is located under `/webapp/carsales`. The Java code for the server side is located under `/examples/net/uidl/carsales/`.
 
