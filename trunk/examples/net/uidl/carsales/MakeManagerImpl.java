@@ -6,6 +6,12 @@ import net.uidl.util.BeanUtils;
 
 import java.util.List;
 
+/**
+ * MakeManager implementation for carsales example application
+ *
+ * @author  Dominic Cioccarelli (uidl.net)
+ * @version 1.0
+ */
 public class MakeManagerImpl extends HibernateDaoSupport implements MakeManager
 {
     public Make getMake(String name) throws Exception

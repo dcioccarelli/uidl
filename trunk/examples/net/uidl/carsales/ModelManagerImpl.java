@@ -7,6 +7,12 @@ import net.uidl.util.BeanUtils;
 
 import java.util.List;
 
+/**
+ * ModelManager implementation for carsales example application
+ *
+ * @author  Dominic Cioccarelli (uidl.net)
+ * @version 1.0
+ */
 public class ModelManagerImpl extends HibernateDaoSupport implements ModelManager
 {
     public Model getModel(String name) throws Exception
