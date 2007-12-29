@@ -1,0 +1,55 @@
+==Spring Remoting==
+
+As noted in the previous section, JSON RPC is not the most efficient protocol for function calls which result in large volumes of data. For this reason, UIDL supports a second form of remoting: Spring Remoting from the Spring micro container environment. At this point it must be pointed out that UIDL can actually use any Java remote object protocol (e.g. RMI, CORBA, etc) thanks to the fact that it can access transparently native Java libraries. The reason why Spring remoting is considered to be a "first class citizen" with respect to its support in UIDL is twofold:
+
+  * It is considered that Spring provides a very robust environment for developing enterprise Java applications and therefore its use in conjunction with UIDL is encouraged. In fact, it is proposed that UIDL + Spring + Hibernate provides an extremely powerful and flexible way of producing scalable enterprise applications. See the CarSales example for proof of this.
+
+*  Spring remoting creates dynamic proxies. The intent of UIDL is to reduce the amount of Java code on the client and supplant it with more flexible JavaScript (otherwise, why not just use applets?). Whilst RMI requires the use of stubs which need to be delivered to the client and recompiled whenever the host objects are modified, Spring remoting creates these stubs (or proxies) dynamically.
+
+Once a Spring method invocation has returned, the resultant object can be made available to the enclosing UIDL script thanks to the built in Java access capabilities of the Rhino interpreter. Note that the Java interfaces for the remote objects must still be available to the client as do any parameters which are comprised of non-standard objects. The task of dynamically downloading a Java library containing these "client helper classes" is facilitated thanks to the ability of the UIDL browser to download Java libraries at runtime from within UIDL scripts. Ant scripts should be developed to produce Jar files containing only those classes which will be required by the client (again, only interfaces and custom parameters).
+
+To use Spring remoting from within a UIDL script, one must first load any class files for the remote objects and interfaces and initialize the Spring context for the client. This is done as follows:
+
+{{{
+browser.loadRemoteLibrary("../jar/remoteClasses.jar");
+var helper = new Uidl.SpringHelper(hostName, hostPort, hostPrefix);
+var context = helper.loadRemoteConfig("applicationContext.xml");
+}}}
+
+This will load a configuration file from the server (from the same directory from where the UIDL script was loaded) which would look similar to the following:
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean id="userManager"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>http://${server}:${port}/uidl/remote/userManager</value>
+        </property>
+        <property name="serviceInterface">
+            <value>net.uidl.example.UserManager</value>
+        </property>
+    </bean>
+	.
+	.
+</beans>   
+}}}
+
+This "userManager" bean would have been exported on the server using a "HttpInvokerServiceExporter". See the relevant Spring remoting documentation for further information about exporting objects / services to make them available via HTTP invocation.
+
+Once the Spring context has been initialized on the client, accessing server side resources is straightforward:
+
+{{{
+userManager = context.getBean("userManager");
+var users = userManager.getUsers();
+for (var i=0; i<users.size(); i++)
+{
+    System.out.println("User name: " + users.get(i).getUserName());
+}
+}}}
+
+To make use of Spring remoting, you will need a certain degree of knowledge of the Spring platform. You are encouraged to have a look at the Spring documentation for further information.
+
+As with the Java implementation of JSON-RPC, the disadvantage of this approach is that the UIDL browser must have access to the class files representing the server side interfaces.
