@@ -1,3 +1,4 @@
+#labels Security
 ==UIDL Security==
 
 Most enterprise class applications will require some form of security, including the possibility to recognize and authenticate users and assign appropriate roles. Rather than forcing application developers to implement custom solutions to satisfy these requirements, the UIDL environment aims to make it as easy as possible to implement security in UIDL applications.
