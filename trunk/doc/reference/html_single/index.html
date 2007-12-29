@@ -1,0 +1,727 @@
+<html>
+
+<head>
+<meta name="description" content="UIDL: User Interface Description Language - Reference Documentation">
+<title>UIDL Reference Documentation</title>
+</head>
+
+<body>
+<font face="Arial">
+
+<h2 align="left">UIDL: User Interface Description Language - Reference 
+Documentation</h2>
+<h2 align="left">Authors</h2>
+<p align="left">Dominic Cioccarelli.</p>
+
+<h2 align="justify">
+Index</h2>
+<ul>
+	<li><a href="#Introduction">Introduction</a>
+	<li><a href="#Downloading,_Installing_&_Building_UIDL">Downloading, Installing &amp; Building UIDL</a>
+		<ul><li><a href="#Downloading">Downloading</a>
+			<li><a href="#Installation">Installation</a>
+			<li><a href="#Running_the_Example_Applications">Running the Example Applications</a>
+			<li><a href="#Building_UIDL">Building</a>
+		</ul>
+	<li><a href="#UIDL:_The_Browser">UIDL: The Browser</a>
+		<ul><li><a href="#UIDL_Browser_Deployment">UIDL Browser Deployment</a>
+			<li><a href="#The_UIDL_Browser">The UIDL Browser</a>
+			<li><a href="#Running_a_UIDL_application_with_Java_Web_Start">Running a UIDL application with Java Web Start</a>
+			<li><a href="#Embedding_the_UIDL_Browser_in_an_Applet">Embedding the UIDL Browser in an Applet</a>
+		</ul>
+	<li><a href="#Writing_UIDL_Applications">Writing UIDL Applications</a>
+		<ul>
+			<li><a href="#The_JavaScript_Interpreter">The JavaScript Interpreter</a>
+			<li><a href="#Core_UIDL_Browser_Objects">Core UIDL browser objects</a>
+			<li><a href="#Importing_Java_Packages">Importing Java Packages</a></li>
+			<li><a href="#Organizing_Code">Organizing Code</a></li>
+			<li><a href="#Creating_a_Simple_Application_">Creating a Simple Application</a></li>
+			<li><a href="#Creating_a_more_complex_Application">Creating a more complex Application</a></li>
+			<li><a href="#Debugging_UIDL_applications">Debugging UIDL applications</a></li>
+			<li><a href="#Other_Scripting_Resources">Other Scripting Resources</a></li>
+		</ul>
+	<li><a href="#UIDL_Remoting">UIDL Remoting</li></a>
+		<ul>
+			<li><a href="#JSON-RPC">JSON-RPC</a></li>
+			<li><a href="#Spring_Remoting">Spring Remoting</a></li>
+		</ul>	
+	<li><a href="#The_CarSales_Sample_Application">The "CarSales" Sample Application</a></li>
+	<li><a href="#UIDL_Security">UIDL Security</a></li>
+</ul>
+<h2 align="justify">
+<a name="Introduction">Introduction</a></h2>
+<p align="justify">
+Traditionally, enterprise applications were built using a client-server 
+approach. As web browsers became more widespread, many application developers 
+preferred to provide a &quot;web interface&quot; as it allowed for transparent deployment 
+of new functionality. This lead to the growth of web applications as we know 
+them today.</p>
+<p align="justify">
+The unfortunate side effect of web applications is that web browsers were only 
+ever designed to display static content. This has meant that designing an 
+application to run within a web browser has been a non trivial task and has 
+often lead to applications which are not as responsive or interactive as would 
+have been the case with a rich client version. Thus, whilst web applications 
+provide ease of deployment, they often decrease developer productivity and the 
+overall ease of use of the UI is compromised.</p>
+<p align="justify">
+Recognizing the constraints of web browsers, there has been a recent trend 
+towards Rich Internet Applications (RIAs) which aim to harness the ease of 
+deployment of web applications and the rich user experience provided by 
+traditional rich client applications. RIA technology is multi faceted and 
+extends from AJAX applications which &quot;extend&quot; the usefulness of traditional 
+browsers by allowing asynchronous communications (and hence reducing whole page 
+refreshes) to more complex solutions such as Flex / Laszlo which use the 
+Macromedia Flash environment included with most browsers to render the UI.</p>
+<p align="justify">
+The UIDL approach is somewhat different in that it uses a Java applet or Java 
+webstart application to act as a pseudo browser environment. This &quot;new&quot; browser 
+is capable of interpreting both HTML and UIDL code, which is basically 
+JavaScript with extensions to allow access to the native windowing system and 
+remote communications.</p>
+<p align="justify">
+UIDL hopes to provide the following benefits:</p>
+<ul>
+	<li>
+	<p align="justify"><i>A &quot;universal&quot; client which can run anywhere</i> (in a 
+	browser, on the desktop) and can be used to render applications written in 
+	UIDL. This means that there is no need to worry about deployment or software 
+	upgrades.<br>
+&nbsp;</p></li>
+	<li>
+	<p align="justify"><i>Mechanisms for providing easy access to server based 
+	resources. </i>Ideally, applications can be modified to run with a UIDL 
+	interface without extensive additions and without modifying the underlying 
+	code. In many cases an application API can be exposed to transparently allow 
+	&quot;remoting&quot;.<br>
+&nbsp;</p></li>
+	<li>
+	<p align="justify"><i>An environment which provides high developer 
+	productivity.</i> As UIDL is based on JavaScript (an interpreted language) 
+	UIDL scripts can be written and tested quickly. The use of a scripted 
+	language for the UI encourages the separation of concerns and allows less 
+	skilled developers to build the UI whilst the more senior developers 
+	concentrate on the more complex code running on the server.</p></li>
+</ul>
+
+<h2><a name="Downloading,_Installing_&amp;_Building_UIDL">Downloading, Installing &amp; Building UIDL</a></h2>
+
+<h3 align="justify">
+<a name="Downloading">Downloading</a></h3>
+<p align="justify">
+The main distribution site for UIDL releases is
+<a href="http://www.uidl.net/download/">http://www.uidl.net/download/</a>. 
+Alternatively, the latest releases are available from the UIDL page on Google 
+code, at <a href="http://code.google.com/p/uidl/downloads/list">
+http://code.google.com/p/uidl/downloads/list</a>. The SVN repository for the 
+UIDL source code is hosted by Google code at
+<a href="http://code.google.com/p/uidl/source">
+http://code.google.com/p/uidl/source</a>. </p>
+<h3>
+<a name="Installation">Installation</a></h3>
+<p>
+The UIDL distribution comes with pre-built UIDL JARs and all supporting JARs. 
+Most of the files in the distribution are not for the UIDL browser itself but 
+rather for the supporting examples (which require things like Spring and 
+Hibernate).</p>
+<p>
+You should unzip the distribution into a local directory. From here you will 
+find the directory structure to be as follows:</p>
+<p>
+<img border="0" src="images/dirStructure.GIF" width="143" height="323"></p>
+<p>
+The source files for the UIDL browser are located in the /src directory whilst 
+the source files for the example scenarios are are located in the /examples 
+directory. Ant build scripts are provided for both the browser and the examples 
+and are located in the /build directory. A pre-populated Derby database is 
+provided in the /db directory for the &quot;CarSales&quot; example application. The /lib 
+directory contains all the Java libraries required to build either the browser 
+or the example applications. Run time JARs to support the example applications 
+are located in /webapp/WEB-INF/lib.</p>
+<p>
+The /webapp directory contains all the server side code required for the example 
+applications and is also used to server the initial files for the UIDL browser 
+and the subsequent UIDL pages.</p>
+<h3>
+<a name="Running_the_Example_Applications">Running the Example Applications</a></h3>
+<h4>
+Statically Hosted Files</h4>
+<p>
+To illustrate how simple it is to run a very simple (static) UIDL application, 
+you can simply copy the contents of the /webapp directory to a normal web 
+server. From there you can navigate to the index page (index.html) and run 
+either the Java WebStart or Applet version of the UIDL browser. Once running the 
+browser, you can run any of the static UIDL examples (i.e. those which don't use 
+remoting). These include &quot;simple.uidl&quot; and &quot;converter.uidl&quot;.</p>
+<h4>
+Using a Web Application Server</h4>
+<p>
+Obviously, more complex applications will require some interaction with business 
+logic running on the server. As a result, we need to run the server side code 
+for the example applications within a web application container. This can be 
+done in one of two ways:</p>
+<ul>
+	<li>The /webapp subdirectory is already in the correct format (exploded WAR) 
+	for most web application servers (e.g. Tomcat). You can configure your 
+	application server to point directly to the /webapp directory which was part 
+	of the UIDL distribution that you unzipped previously. In Tomcat, this would 
+	be done using a context descriptor (e.g. uidl.xml) similar to the following:
+	<pre><font face="Courier">&lt;Context docBase=&quot;C:/cep/uidl/webapp&quot; debug=&quot;0&quot; privileged=&quot;false&quot; reloadable=&quot;true&quot;&gt;
+&lt;/Context&gt;	</font></pre></li>
+	<li>You can simply build the UIDL WAR file and deploy it to your web server 
+	as you would any other WAR file. Building the WAR file is described in the 
+	next section.</li>
+</ul>
+<h4><a name="Configuring_the_CarSales_Data_Source">Configuring the &quot;CarSales&quot; Data Source</a></h4>
+<p>Irrespective of how you run the UIDL web application, you should edit the &quot;applicationContext.xml&quot; file (in the 
+/WEB-INF directory) to point to the DB directory of where you extracted the UIDL 
+distribution. As mentioned previously, we have included a sample Derby DB for 
+the &quot;CarSales&quot; example. Due to the way the embedded Derby driver works, we need 
+to specify the location of this directory in the JDBC URI, which is located in 
+the Spring &quot;applicationContext.xml&quot;, i.e.:
+<pre><font face="Courier">&lt;!-- Configuration for an application managed JDBC datasource --&gt;<br>&lt;bean id=&quot;carsalesDataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot; 
+destroy-method=&quot;close&quot;&gt;<br>&lt;property name=&quot;driverClassName&quot; value=&quot;org.apache.derby.jdbc.EmbeddedDriver&quot;/&gt;<br>&lt;property name=&quot;url&quot; value=&quot;jdbc:derby:<font color="#FF0000"><b>C:/cep/uidl</b></font>/db/carsales;create=true&quot;/&gt;<br>&lt;property name=&quot;username&quot; value=&quot;&quot;/&gt;<br>&lt;property name=&quot;password&quot; value=&quot;&quot;/&gt;<br>&lt;/bean&gt;</font></pre>
+Alternatively you can configure the data source in your web application server 
+and reference it from the Spring configuration file as follows:
+<pre><font face="Courier">&lt;bean id=&quot;carsalesDataSource&quot; class=&quot;org.springframework.jndi.JndiObjectFactoryBean&quot;&gt;
+&lt;property name=&quot;jndiName&quot; value=&quot;java:comp/env/jdbc/carsales&quot;/&gt;
+&lt;/bean&gt;</font></pre>If you don't want to use the pre-configured database, you 
+can get Hibernate to rebuild an empty schema by specifying a new Derby URI and 
+then modifying the Spring configuration as follows:
+<pre><font face="Courier">&lt;property name=&quot;hibernateProperties&quot;&gt;<br>    &lt;props&gt;
+	&lt;prop key=&quot;hibernate.dialect&quot;&gt;org.hibernate.dialect.DerbyDialect&lt;/prop&gt;
+	<font color="#FF0000"><b>&lt;prop key=&quot;hibernate.hbm2ddl.auto&quot;&gt;create&lt;/prop&gt;</b></font>
+    &lt;/props&gt;<br>&lt;/property&gt;</p>
+</font></pre>
+<h3><a name="Building_UIDL">Building UIDL</a></h3><p align="justify">If you intend to modify or recompile the UIDL browser code, 
+you will need to be able to build the <b>uidl.jar</b> file. Note that it is very important to sign
+<i>all</i> the JAR files which will be loaded when the browser is run as an applet or as a Java Web Start application. This is typically just uidl.jar and js.jar (Rhino).</p><p align="justify">If you wish to distribute the UIDL browser (or a UIDL 
+application) in a production environment then it is advisable to sign all the 
+required JAR files using a proper digital certificate issued from a trusted 
+certificate authority. The build script (build.xml) can be modified with the 
+appropriate certificate information if required.</p><p align="justify">The targets available for building the UIDL browser are as follows:</p><pre><font face="Courier">
+ant -projecthelp
+Buildfile: build.xml
+Main targets:
+
+ classpathInfo&nbsp; Display current application classpath
+ clean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Delete built files
+ compile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Compile core classes
+ copyResources&nbsp; Copies .properties files to classDir
+ jar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Create a .jar file from core classes
+ signedjar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Create a .jar file from UIDL browser classes
+
+Default target: signedjar
+</font></pre><p align="justify">Typically you will compile a new browser by using &quot;<b>ant signedjar</b>&quot;. This will produce a new UIDL browser library (uidl.jar) in the /webapp/browser directory. In this way, the browser (either running as a Java WebStart application or as an applet) will pick up the new JAR file the next time it runs.</p><p align="justify">In order to compile the example applications, a second build script is used. This time the options are as follows:</p><pre><font face="Courier">
+ant -buildfile examples.xml -projecthelp
+Buildfile: examples.xml
+Main targets:
+
+ classpathInfo&nbsp;&nbsp; Display current application classpath
+ clean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Delete built files
+ compile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Compile core classes
+ copyResources&nbsp;&nbsp; Copies resources files to classDir
+ jar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Create a .jar file from core classes
+ remoteClassJar&nbsp; Create a .jar file for the remote classes
+ war&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Create a WAR file to deploy the application
+
+Default target: jar</font></pre><p align="justify">The default target (jar) will produce a new JAR file with the class files for the examples in the
+
+</font>
+<font face="Courier" size="2">/webapp/WEB-INF/lib</font><font face="Arial"> directory. Depending on how you have configured your web application server, you may need to use the &quot;war&quot; target and redeploy the WAR archive (containing the new examples JAR) to your application server.</font></p><p align="justify"><font face="Arial"> For some of the remoting examples, the UIDL code needs to have access to both the Java interfaces for the remote object factories / facades and the class files for the actual objects which are transmitted (in serialized form) to the UIDL application (and subsequently translated into JavaScript objects). Rather than passing the entire &quot;<b>examples.jar</b>&quot; file to the client, we produce a much lighter &quot;<b>remoteClasses.jar</b>&quot; which is made available in the /webapp/jar directory. The <font face="Courier">
+remoteClassJar </font>target is responsible for producing this file and the classes which it contains are specified in &quot;<b>/build/remoteInterface.txt</b>&quot;.</p><h2 align="justify"><a name="UIDL:_The_Browser">UIDL: The Browser</a></h2><h3 align="justify">
+<a name="UIDL_Browser_Deployment">UIDL Browser Deployment</a></h3><p align="justify">
+To make use of a UIDL based application, end users must run a UIDL &quot;browser&quot;. This 
+is analogous to a web browser except that it interprets and renders the UIDL 
+language rather than HTML (actually it has limited support for HTML rendering as 
+well). It could also be considered as a &quot;universal client&quot; for rich internet 
+applications.</p><p align="justify">
+The size of the browser / universal client is quite small (500Kb - 1Mb depending 
+on remoting options) and it only needs to be downloaded once irrespective of the 
+number of UIDL applications with which it is used. Being Java based, the browser 
+will run on any OS which supports a recent Java Virtual Machine.</p><p align="justify">
+In order to simplify the (one time) deployment of the UIDL browser, many options 
+have been made available, including:</p><ul>
+	<li>
+	<p align="justify">Stand alone mode. Typically used by developers, where all 
+	Java libraries are statically located on the client machine.</p></li><li>
+	<p align="justify">
+	<a href="#Running_a_UIDL_application_with_Java_Web_Start">Java Web Start mode</a>. This 
+	mode makes use of the Java Web Start technology introduced in recent 
+	versions of the Sun JRE. Users simply need to click once on the 
+	JNLP file describing the UIDL browser and it will be installed on their 
+	machine. In addition, if updates to the browser are ever required, these 
+	will be transparently loaded&nbsp; by the client each time they run the 
+	browser.</p></li><li>
+	<p align="justify"><a href="#Embedding_the_UIDL_Browser_in_an_Applet">Applet mode</a>. For the most 
+	transparent deployment, the UIDL browser can be embedded within a standard 
+	web browser as a Java applet. Being a signed applet, it will only need to 
+	download the constituent libraries once and will cache them locally on the 
+	client machine. This means that the page containing the applet will always 
+	load quickly. Updates to the browser code will be delivered transparently to 
+	clients running in this mode.</p></li></ul><h3 align="justify"><a name="The_UIDL_Browser">The UIDL Browser</a></h3><p align="justify">The UIDL Browser looks similar to the following picture when 
+run as a Java Web Start application.</p><p align="justify"><img border="0" src="images/howitw1.jpg"></p><p align="justify">When a UIDL page is loaded, the body of the UIDL application 
+is displayed in the browser's content area as follows:</p><p align="justify"><img border="0" src="images/howitw2.jpg"></p><p align="justify">When deployed as a Java WebStart application or Java Applet, 
+one can pass the URL of the UIDL application script to the UIDL browser as a 
+parameter and choose to have the address bar concealed. In this way, the user isn't presented with an address bar or 
+navigation buttons and the specified page loads immediately. Compare the 
+application above with that below:</p><p align="justify"><img border="0" src="images/howitw3.jpg"></p><p align="center"><i><font size="2">Browser Running in Embedded Mode</font></i></p><p align="justify">This mode of deployment is recommended for environments where 
+the user will only be accessing a single UIDL based application (and therefore 
+doesn't need the navigation capabilities) or when the UIDL browser is run as an 
+applet and the users may confuse the HTML browser's navigation bar with that of 
+the UIDL browser. This mode of deployment can be thought of as &quot;embedding&quot; the 
+UIDL browser into the UIDL application.</p><h3><a name="Running_a_UIDL_application_with_Java_Web_Start">Running a UIDL application with Java Web Start</a></h3><p align="justify">
+Java Web Start is one of the most convenient ways to run a UIDL based 
+application. It allows for automatic application updating and integration with 
+the user's desktop. An example of a Web Start descriptor (JNLP file) for a UIDL 
+application is as follows
+
+<pre><font face="Courier">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!-- JNLP File for UIDL Browser --&gt;
+&lt;jnlp
+&nbsp; spec=&quot;1.0+&quot;
+&nbsp; codebase=&quot;http://www.uidl.net/browser/&quot;
+&nbsp; href=&quot;uidl.jnlp&quot;&gt;
+&nbsp; &lt;information&gt;
+&nbsp;&nbsp;&nbsp; &lt;title&gt;UIDL Browser&lt;/title&gt;
+&nbsp;&nbsp;&nbsp; &lt;vendor&gt;www.uidl.net&lt;/vendor&gt;
+&nbsp;&nbsp;&nbsp; &lt;homepage href=&quot;docs/help.html&quot;/&gt;
+&nbsp;&nbsp;&nbsp; &lt;description&gt;UIDL Browser&lt;/description&gt;
+&nbsp;&nbsp;&nbsp; &lt;description kind=&quot;short&quot;&gt;A browser for displaying rich client
+&nbsp;&nbsp;&nbsp; applications written in the UIDL syntax.&lt;/description&gt;
+&nbsp;&nbsp;&nbsp; &lt;icon href=&quot;images/logo.jpg&quot;/&gt;
+&nbsp;&nbsp;&nbsp; &lt;offline-allowed/&gt;
+&nbsp;&nbsp;&nbsp; &lt;shortcut&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;desktop/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;menu submenu=&quot;UIDL&quot;/&gt;
+&nbsp;&nbsp;&nbsp; &lt;/shortcut&gt;
+&nbsp; &lt;/information&gt;
+&nbsp; &lt;security&gt;
+&nbsp;&nbsp;&nbsp; &lt;all-permissions/&gt;
+&nbsp; &lt;/security&gt;
+&nbsp; &lt;resources&gt;
+&nbsp;&nbsp;&nbsp; &lt;j2se version=&quot;1.3+&quot;/&gt;
+&nbsp;&nbsp;&nbsp; &lt;jar href=&quot;uidl.jar&quot; download=&quot;eager&quot;/&gt;
+&nbsp;&nbsp;&nbsp; &lt;jar href=&quot;js.jar&quot; download=&quot;eager&quot;/&gt;
+&nbsp; &lt;/resources&gt;
+&nbsp; &lt;application-desc main-class=&quot;net.uidl.Browser&quot;&gt;
+&nbsp; &lt;/application-desc&gt;
+&lt;/jnlp&gt;</font></pre>As with the applet version of the UIDL browser, if you are going to be using <a href="remoting.html">Spring remoting</a>, you will need to include some extra libraries, as follows:
+<pre><font face="Courier">&lt;jar href=&quot;js.jar&quot; download=&quot;eager&quot;/&gt;
+<font color="#FF0000">&lt;jar href=&quot;spring-client.jar&quot; download=&quot;lazy&quot;/&gt;
+</font>&lt;/resources&gt;</font></pre>If you would like the applet to automatically load a UIDL page (even from a different server) and 
+<a href="images/howitw3.jpg"> not display a navigation bar</a>, then you will need to include an extra 
+couple of parameters as follows:
+<pre><font face="Courier">&lt;application-desc main-class=&quot;net.uidl.Browser&quot;&gt;
+<font color="#FF0000">&nbsp; &lt;argument&gt;http://localhost:8080/uidl/admin/admin.uidl&lt;/argument&gt;
+&nbsp; &lt;argument&gt;false&lt;/argument&gt;
+</font>&lt;/application-desc&gt;</font></pre>Finally, if you would like to load some extra (client side) Java libraries which the UIDL
+application will make use of, then
+these can be added to the applet classpath as follows:
+<pre><font face="Courier">&nbsp; &lt;j2se version=&quot;1.3+&quot;/&gt;
+&nbsp; &lt;jar href=&quot;uidl.jar&quot; download=&quot;eager&quot;/&gt;
+&nbsp; &lt;jar href=&quot;js.jar&quot; download=&quot;eager&quot;/&gt;
+&nbsp;
+&nbsp;
+&nbsp;
+  <font color="#FF0000">&lt;jar href=&quot;TableLayout.jar&quot; download=&quot;lazy&quot;/&gt;</font>
+&lt;/resources&gt;</font></pre>Note that external libraries can also be loaded dynamically from within UIDL scripts as follows:
+<pre><font face="Courier">browser.loadRemoteLibrary("myclientlib.jar");</font></pre>Loading libraries from within the JNLP descriptor has the advantage of caching the JAR file and eliminates some
+security issues when using signed JAR files, although it is advised to load libraries from within scripts
+wherever possible to place the maximum amount of logic within the script itself and reduce external 
+dependencies.
+<h3><a name="Embedding_the_UIDL_Browser_in_an_Applet">Embedding the UIDL Browser in an Applet</a></h3><p align="justify">
+To embed the UIDL browser in an applet, you will need to include the following 
+code in an HTML page:
+<pre><font face="Courier">&lt;applet name="uidlApplet" codebase="."
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; archive="uidl.jar,js.jar"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; code="net.uidl.BrowserApplet.class" width="100%" height="95%" alt="No applet">
+&lt;/applet&gt;</font></pre><p>If you would like the applet to automatically load a UIDL page (even from a different server) and 
+<a href="images/howitw3.jpg"> not
+display a navigation bar</a>, then simply include the address of the page as a parameter to the applet as follows:
+</p>
+<pre><font face="Courier">&lt;applet name="uidlApplet" codebase="."
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; archive="uidl.jar,js.jar"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; code="net.uidl.BrowserApplet.class" width="100%" height="95%" alt="No applet">
+&nbsp;&nbsp;&nbsp; &lt;param name="url" value="http://www.uidl.net/example/carsales.uidl&quot;&gt;
+&nbsp;&nbsp;&nbsp; &lt;param name="addressBar" value=&quot;false&quot;&gt;
+&lt;/applet&gt;</font></pre>Finally, if you would like to load some extra (client side) Java libraries which the UIDL
+application will make use of, then
+these can be added to the applet classpath as follows:
+<pre><font face="Courier">&lt;applet name="uidlApplet" codebase="."
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; archive="uidl.jar,js.jar,myclientlib.jar"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; code="net.uidl.BrowserApplet.class" width="100%" height="95%" alt="No applet">
+&lt;/applet&gt;</font></pre>Note that external libraries can also be loaded dynamically from within UIDL scripts as follows:
+<pre><font face="Courier">browser.loadRemoteLibrary("myclientlib.jar");</font></pre>Loading libraries from within applet code has the advantage of caching the JAR file and eliminates some
+security issues when using signed JAR files, although it is advised to load libraries from within scripts
+wherever possible to place the maximum amount of logic within the script itself and reduce external 
+dependencies.
+<h2><a name="Writing_UIDL_Applications">Writing UIDL Applications</a></h2><h3 align="justify">
+Introduction</h3><p align="justify">
+A UIDL application is basically a JavaScript application which has the 
+possibility of accessing core Java libraries. If you consider JavaScript running 
+within a standard browser, it's power is rather limited as it can only interact 
+with the Document Object Model (DOM) of the HTML page and has no way of 
+interacting with the server (short of recent AJAX extensions). This has 
+relegated JavaScript to a language which has been used for basic tasks such as 
+validating user input or creating dynamic menus or collapsible paragraphs.</p><p align="justify">
+By proving JavaScript with access to the windowing system of the host operating 
+system and (via Java Swing) and with access to server based objects (via 
+remoting) very complex and rich applications can be constructed in JavaScript / 
+ECMA script.</p><h3 align="justify">
+<a name="The_JavaScript_Interpreter">The JavaScript Interpreter</a></h3><p align="justify">
+Rather than writing a JavaScript interpreter, the UIDL browser environment makes 
+use of the Mozilla &quot;Rhino&quot; interpreter. Rhino is a JavaScript interpreter 
+written in Java. The use of a Java based JavaScript interpreter is important for 
+two reasons:</p><ul>
+	<li>
+	<p align="justify">it provides us with a client platform which will run on 
+	most operating systems</li><li>
+<p align="justify">it provides easy access to Java objects, allowing for easy 
+expansion of capabilities and interfacing with server environments</li></ul><p align="justify">More information about Rhino can be found at 
+<a href="http://www.mozilla.org/rhino/">here</a>.</p><h3 align="justify"><a name="Core_UIDL_Browser_Objects">Core UIDL Browser Objects</a></h3><p align="justify">Just as a typical web browser provides applications with a 
+set of core objects (such as window, history, etc) the UIDL browser provides 
+hosted applications with a set of standard objects and functions. In addition to 
+these &quot;core&quot; objects, any standard library can be used, provided it is
+<a href="images/classpath.html">made available to the browsers JVM</a>.</p><p align="justify">The core UIDL Browser objects are the following:</p><ul>
+	<li>
+	<p align="justify"><font face="Courier New"><b>browser</b></font>:&nbsp;&nbsp;&nbsp; 
+	the browser itself. Provides access to the following functions:<ul>
+		<li>
+		<p align="justify"><font face="Courier New"><b>include</b></font>: loads 
+		one UIDL page from another (dynamically)</li><li>
+	<p align="justify"><font face="Courier New"><b>loadRemoteLibrary</b></font>: 
+	dynamically loads a JAR file from the server</li></ul></li><li>
+	<p align="justify"><font face="Courier New"><b>frame</b></font>:&nbsp;&nbsp;&nbsp; 
+an empty JInternalFrame in which the application can use to construct its UI.</li><li>
+	<p align="justify"><font face="Courier New"><b>hostName</b></font>:&nbsp;&nbsp;&nbsp; 
+the name of the server from where the UIDL script was loaded</li><li>
+	<p align="justify"><font face="Courier New"><b>hostPort</b></font>:&nbsp;&nbsp;&nbsp; 
+the port of the server from where the UIDL script was loaded</li><li>
+	<p align="justify"><font face="Courier New"><b>hostPrefix</b></font>:&nbsp;&nbsp;&nbsp; 
+the full URI of the directory from which the UIDL script was loaded</li></ul><h3 align="justify"><a name="Importing_Java_Packages">Importing Java Packages</a></h3><p align="justify">Java packages may be imported by creating aliases as follows:</p><p align="justify">
+<pre><font face="Courier">
+Event = java.awt.event;
+Awt = java.awt;
+Lang = java.lang;
+Util = java.util;
+Swing = Packages.javax.swing;
+Spring = Packages.org.springframework;
+</font></pre>Note that standard java libraries don't require a "Packages" prefix. Once an alias has been created, new objects may be instantiated 
+as follows:
+<pre><font face="Courier">var button = new Swing.JButton();</font></pre>Alternatively, you can create an alias for a JButton directly as follows:
+<pre><font face="Courier">JButton = Swing.JButton;</font></pre>In which case the code to create a new button would be:
+<pre><font face="Courier">button = new JButton();</font></pre><h3><a name="Organizing_Code">Organizing Code</a></h3><p>As UIDL applications get more complicated, they can grow to the point 
+where a single &quot;.uidl&quot; file is not sufficient to handle the application 
+code. This is where the &quot;import&quot; function of the browser object becomes 
+important. Imaging that we had the above package definitions in a 
+separate file called &quot;packages.uidl&quot;. In this case, we could have a 
+second UIDL script in which we made use of the first script as follows:
+<pre><font face="Courier">
+browser.include("packages.uidl");
+button = new JButton();
+</font></pre><h3><a name="Creating_a_Simple_Application_">Creating a Simple Application</a> </h3>
+<p>A simple UIDL application is given below:
+<pre><font face="Courier">
+Awt = java.awt;
+Swing = Packages.javax.swing;
+JLabel = Swing.JLabel;
+
+frame.setLayout(new Awt.BorderLayout());
+frame.setTitle(&quot;Very Simple Administration&quot;);
+var l = new JLabel(
+&nbsp;&nbsp;&nbsp; &quot;&lt;html&gt;&lt;p align='center'&gt;Welcome to a&lt;br&gt;&quot; +
+&nbsp;&nbsp;&nbsp; &quot;&lt;font size='7' color='green'&gt;VERY SIMPLE&lt;/font&gt;&lt;br&gt;&lt;br&gt;&quot; +
+&nbsp;&nbsp;&nbsp; &quot;UIDL Application&lt;/p&gt;&lt;/html&gt;&quot;);
+l.setHorizontalAlignment(Swing.SwingConstants.CENTER);
+frame.add(l);
+</font></pre>Which will render as follows:</p><p>
+		<img border="0" src="images/applic4.jpg"></p><h3><a name="Creating_a_more_complex_Application">Creating a more complex Application</a></h3><p>A more complex currency converter application (albeit slightly out of date) 
+is shown below. Note that in a real version, 
+<a href="images/remoting.html">remoting</a> 
+would be used to perform the currency conversion on the server, thereby using 
+the most up to date exchange rates.
+<pre><font face="Courier">
+Swing = Packages.javax.swing;
+Event = java.awt.event;
+Awt = java.awt;
+Lang = java.lang;
+Util = java.util;
+
+System = Lang.System;
+JPanel = Swing.JPanel;
+JButton = Swing.JButton;
+
+var labelPrefix = "Amount in Italian lira: ";
+
+function aboutAction(evt)
+{
+&nbsp;&nbsp;&nbsp; Swing.JOptionPane.showMessageDialog(frame, "Eggs aren't supposed to be green.");
+}
+
+function quitAction(evt)
+{
+&nbsp;&nbsp;&nbsp; System.exit(0);
+}
+
+function createComponents()
+{
+&nbsp;&nbsp;&nbsp; textField = new Swing.JTextField(20);
+
+&nbsp;&nbsp;&nbsp; label = new Swing.JLabel(labelPrefix + "0");
+&nbsp;&nbsp;&nbsp; button = new JButton("Convert dollars to lira");
+&nbsp;&nbsp;&nbsp; button.setMnemonic(Event.KeyEvent.VK_I);
+&nbsp;&nbsp;&nbsp; button.addActionListener(buttonAction)
+&nbsp;&nbsp;&nbsp; label.setLabelFor(button);
+
+&nbsp;&nbsp;&nbsp; pane = new JPanel();
+&nbsp;&nbsp;&nbsp; pane.setBorder(Swing.BorderFactory.createEmptyBorder(30, 30, 10, 30));
+&nbsp;&nbsp;&nbsp; pane.setLayout(new Awt.GridLayout(0, 1));
+&nbsp;&nbsp;&nbsp; pane.add(textField);
+&nbsp;&nbsp;&nbsp; pane.add(button);
+&nbsp;&nbsp;&nbsp; pane.add(label);
+
+&nbsp;&nbsp;&nbsp; return pane;
+}
+
+function createMenuBar()
+{
+&nbsp;&nbsp;&nbsp; jMenuBar = new Swing.JMenuBar();
+&nbsp;&nbsp;&nbsp; jMenuFile = new Swing.JMenu();
+&nbsp;&nbsp;&nbsp; jMenuFile.setText("File");
+&nbsp;&nbsp;&nbsp; jMenuFileExit = new Swing.JMenuItem();
+&nbsp;&nbsp;&nbsp; jMenuFileExit.setText("Exit");
+&nbsp;&nbsp;&nbsp; jMenuFileExit.addActionListener(quitAction);
+&nbsp;&nbsp;&nbsp; jMenuHelp = new Swing.JMenu();
+&nbsp;&nbsp;&nbsp; jMenuHelp.setText("Help");
+&nbsp;&nbsp;&nbsp; jMenuHelpAbout = new Swing.JMenuItem();
+&nbsp;&nbsp;&nbsp; jMenuHelpAbout.setText("About");
+&nbsp;&nbsp;&nbsp; jMenuHelpAbout.addActionListener(aboutAction);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; appToolbar = new Swing.JToolBar();
+&nbsp;&nbsp;&nbsp; jMenuFile.add(jMenuFileExit);
+&nbsp;&nbsp;&nbsp; jMenuHelp.add(jMenuHelpAbout);
+&nbsp;&nbsp;&nbsp; jMenuBar.add(jMenuFile);
+&nbsp;&nbsp;&nbsp; jMenuBar.add(jMenuHelp);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; return jMenuBar;
+}
+
+function buttonAction(evt)
+{
+&nbsp;&nbsp;&nbsp; inp = textField.getText();
+&nbsp;&nbsp;&nbsp; amount = inp * 1000;
+
+&nbsp;&nbsp;&nbsp; label.setText(labelPrefix + amount);
+}
+
+contents = createComponents();
+frame.setLayout(new Awt.FlowLayout());
+frame.add(contents);
+menuBar = createMenuBar();
+frame.setJMenuBar(menuBar);
+</font></pre></p><p>This application renders as follows:</p><p>
+<img border="0" src="images/applic7.jpg"></p><h3><a name="Debugging_UIDL_applications">Debugging UIDL applications</a></h3><p>The UIDL browser (when not running in embedded mode) has the ability to 
+display the source of the current application along with any errors or console 
+output. This is invaluable to determining the root cause of a UIDL application 
+error. See below:</p><p>
+		<img border="0" src="images/applic6.jpg"></p><p>&nbsp;</p>
+		<p>
+		<img border="0" src="images/applic5.jpg"></p><h3><a name="Other_Scripting_Resources">Other Scripting Resources</a></h3><p>More information about JavaScript scripting of Java objects can be found in 
+the <a href="http://www.mozilla.org/rhino/doc.html">Rhino documentation</a>.</p><p align="justify"></p>
+
+<p></p>
+<h2 align="justify"><a name="UIDL_Remoting">UIDL Remoting</a></h2><h3 align="justify">
+Introduction</h3><p align="justify">
+Writing rich GUI client applications wouldn't be extremely useful if they had no 
+way of communicating with a server for dynamic data updates. In a traditional 
+web application, when new data is required, a new HTML page is generated from 
+the server with the relevant information. This model is both slow for the user 
+and cumbersome for the developer.</p><p align="justify">
+In a UIDL application, the user interface description is downloaded and rendered 
+once UIDL page is loaded. As the user interacts with the UI data may be required 
+to be updated from the server. The mechanism which UIDL makes available for this 
+type of interaction is that of client side proxies: JavaScript objects which 
+share similar methods to that of their server side counterparts. The proxies are 
+responsible for marshalling the data to server and making the return object 
+available to the client as a native JavaScript object.</p><p align="justify">
+Using this principle, remote user interfaces can be developed extremely easily 
+for server applications as the existing server side objects can be transparently 
+made available to clients with little or no modification to existing code.</p><p align="justify">
+UIDL currently supports two forms of remoting: JSON-RPC and Spring remoting.</p><h3 align="justify">
+<a name="JSON-RPC">JSON-RPC</a></h3><p align="justify">
+<a href="http://jabsorb.org/">JSON-RPC</a> in a remote object protocol based on the JavaScript Object Notation 
+(<a href="http://www.crockford.com/JSON/">JSON</a>). In this protocol, method invocations performed on client side JavaScript 
+objects are transmitted to the server in JSON format. From there, a server side 
+service invoker is responsible for controlling access rights and performing the 
+method invocations on the actual server based objects. The result is then 
+converted to JSON, transmitted back to the client and desterilized into a 
+JavaScript object.</p><p align="justify">
+The advantage of using this protocol with UIDL is that it is extremely flexible: 
+no Java class libraries need to be transmitted to the client to support the 
+corresponding implementations which reside on the server (as would be needed 
+with alternative protocols such as RMI). This allows client memory footprints to 
+remain small and allows UIDL scripts to be relatively robust to changes in 
+server side objects (code will only break if method signatures change 
+dramatically).</p><p align="justify">
+To use JSON RPC, the server must be modified to expose any objects which must be 
+accessible by the client. This can be done inside a simple servlet or (better 
+still) a servlet listener. The code to register an object should be similar to 
+the following:
+<pre><font face="Courier">Hello hello = new Hello();
+JSONRPCBridge.getGlobalBridge().registerObject(&quot;hello&quot;, hello);</font></pre></p><p align="justify">
+This will make the &quot;Hello&quot; object accessible from UIDL clients using the JSON 
+RPC protocol.</p><p align="justify">
+Alternatively, the &quot;<b>net.uidl.util.JsonRpcExporter</b>&quot; service can be used to register Spring hosted objects. This is the technique employed by the bundled example applications.<p align="justify">
+In order to access the object from a UIDL script, the following code can be 
+used:
+<pre><font face="Courier">jsonrpc = new JSONRpcClient(hostPrefix + "JSON-RPC");
+message = jsonrpc.hello.sayHello("Dominic");</font></pre>For requests which might take some time, a callback can be used which will be called with the
+return parameter once the method invocation is complete. In this case, the code would look
+similar to the following:
+<pre><font face="Courier">function callback(result, exception)
+{
+&nbsp;&nbsp;&nbsp; System.out.println(result);
+}
+
+jsonrpc = new JSONRpcClient(hostPrefix + "JSON-RPC");
+jsonrpc.hello.sayHello(callback, "Dominic");</font></pre></p><p align="justify">
+The JSON RPC protocol does have some disadvantages in that it is less efficient 
+for requests which return large amounts of data (such as collections of objects) 
+due to the expense of converting Java objects to JavaScript notation. In addition, complex objects which are returned via the <b>JSONRpcCilent</b> are not directly usable in UIDL scripts. They can be passed back to the server and referenced, although their internal properties remain opaque.</p><p align="justify">
+To address this last concern and to increase the performance somewhat, a native Java implementation of the JSON RPC client can be used (the afore mentioned JSONRpcCilent is implemented in JavaScript). The configuration for this second approach is identical on the server, although the client code should be implemented as follows: </p><pre><font face="Courier">// Libraries for json-rpc-client
+browser.loadRemoteLibrary(&quot;../jar/remoteClasses.jar&quot;);
+browser.loadRemoteLibrary(&quot;../jar/json-rpc-client.jar&quot;);
+browser.loadRemoteLibrary(&quot;../jar/httpclient.jar&quot;);
+browser.loadRemoteLibrary(&quot;../jar/json.jar&quot;);
+browser.loadRemoteLibrary(&quot;../jar/jsonrpc.jar&quot;);
+browser.loadRemoteLibrary(&quot;../jar/commons-codec.jar&quot;);
+browser.loadRemoteLibrary(&quot;../jar/commons-logging.jar&quot;);</font></pre><pre><font face="Courier">browser.include(&quot;packages.uidl&quot;);
+
+var hostRoot = &quot;http://&quot; + hostName + &quot;:&quot; + hostPort + &quot;/uidl/&quot;;
+Client = Packages.org.apache.commons.httpclient;
+JsonRpc = Packages.org.codebistro.jsonrpc;
+JsonRpc.HTTPSession.register(JsonRpc.TransportRegistry.i());
+var httpSession= JsonRpc.TransportRegistry.i().createSession(hostRoot + &quot;JSON-RPC&quot;);
+var state = new Client.HttpState();
+httpSession.setState(state);
+client = new JsonRpc.Client(httpSession);</font></pre><p align="justify">
+Basically, the UIDL browser will require the help of several external Java libraries to make use of the JSON-RPC Java client. Once we have constructed a &quot;client&quot; object, it is trivial to make calls to any services exposed on the server:</p><p align="justify">
+<font face="Courier">var userManager = client.openProxy(&quot;userManager&quot;, Uidl.example.UserManager);<br>var users = userManager.getUsers();<br>...</font></p><p align="justify">
+The disadvantage of this approach (over the native JavaScript variant) is that the UIDL browser must have access to the class files representing the server side interfaces (e.g. UserManaer) and for any serialized objects (e.g. User). This requires more coordination as we need to ensure that whenever these files are modified on the server, we make the corresponding remote interfaces (a sub-set of the server files) available to the client. See the <b>remoteClassJar</b> target in the <a href="#Building_UIDL">build section</a> for one way of doing this efficiently.</p><h3 align="justify">
+<a name="Spring_Remoting">Spring Remoting</a></h3><p align="justify">
+As noted in the previous section, JSON RPC is not the most efficient protocol 
+for function calls which result in large volumes of data. For this reason, UIDL 
+supports a second form of remoting: Spring Remoting from the Spring micro 
+container environment. At this point it must be pointed out that UIDL can 
+actually use <i>any</i> Java remote object protocol (e.g. RMI, CORBA, etc) 
+thanks to the fact that it can access transparently native Java libraries. The 
+reason why Spring remoting is considered to be a &quot;first class citizen&quot; with 
+respect to its support in UIDL is twofold:</p><ul>
+	<li>
+	<p align="justify">It is considered that Spring provides a very robust 
+	environment for developing enterprise Java applications and therefore its 
+	use in conjunction with UIDL is encouraged. In fact, it is proposed that 
+	UIDL + Spring + Hibernate provides an extremely powerful and flexible way of 
+	producing scalable enterprise applications. See the <a href="#The_CarSales_Sample_Application">CarSales example</a> for proof of this.</p></li><li>
+	<p align="justify">Spring remoting creates dynamic proxies. The intent of 
+	UIDL is to reduce the amount of Java code on the client and supplant it with 
+	more flexible JavaScript (otherwise, why not just use applets?). Whilst RMI 
+	requires the use of stubs which need to be delivered to the client and 
+	recompiled whenever the host objects are modified, Spring remoting creates 
+	these stubs (or proxies) dynamically.</p></li></ul><p align="justify">Once a Spring method invocation has returned, the resultant 
+object can be made available to the enclosing UIDL script thanks to the built in 
+Java access capabilities of the Rhino interpreter. Note that the Java <i>
+interfaces</i> for the remote objects must still be available to the client as 
+do any parameters which are comprised of non-standard objects. The task of 
+dynamically downloading a Java library containing these &quot;client helper classes&quot; 
+is facilitated thanks to the ability of the UIDL browser to download Java 
+libraries at runtime from within UIDL scripts. Ant scripts should be developed 
+to produce Jar files containing <i>only</i> those classes which will be required 
+by the client (again, only interfaces and custom parameters).</p><p align="justify">To use Spring remoting from within a UIDL script, one must 
+first load any class files for the remote objects and interfaces and initialize the Spring context for the client. This is done as follows:
+<pre><font face="Courier">browser.loadRemoteLibrary(&quot;../jar/remoteClasses.jar&quot;);
+var helper = new Uidl.SpringHelper(hostName, hostPort, hostPrefix);
+var context = helper.loadRemoteConfig(&quot;applicationContext.xml&quot;);</font></pre>This will load a configuration file from the server (from the same directory from where the
+UIDL script was loaded) which would look similar to the following:
+<pre><font face="Courier">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"&gt;
+
+&lt;beans&gt;
+&nbsp;&nbsp;&nbsp; &lt;bean id="userManager"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;property name="serviceUrl"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;value&gt;http://${server}:${port}/uidl/remote/userManager&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/property&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;property name="serviceInterface"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;value&gt;net.uidl.example.UserManager&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/property&gt;
+&nbsp;&nbsp;&nbsp; &lt;/bean&gt;
+	.
+	.
+&lt;/beans&gt;&nbsp;&nbsp;&nbsp;</font></pre>This "<b>userManager</b>" bean would have been exported on the server using a "<b>HttpInvokerServiceExporter</b>". See the
+relevant
+<a href="http://www.springframework.org/docs/reference/remoting.html#d0e12533">
+Spring remoting documentation</a>
+for further information about exporting objects / services to make them 
+available via HTTP invocation.<p>Once the Spring context has been initialized on 
+the client, accessing server side resources is straightforward:
+<pre><font face="Courier">userManager = context.getBean("userManager");
+var users = userManager.getUsers();
+for (var i=0; i&lt;users.size(); i++)
+{
+&nbsp;&nbsp;&nbsp; System.out.println("User name: " + users.get(i).getUserName());
+}</font></pre>To make use of Spring remoting, you will need a certain degree of knowledge of the Spring platform. You are
+encouraged to have a look at the 
+<a href="http://www.springframework.org/docs/reference/remoting.html">Spring documentation</a> for further information.<p>As with the Java implementation of JSON-RPC, the disadvantage of this approach is that the UIDL browser must have access to the class files representing the server side interfaces.</p><h2>
+<a name="The_CarSales_Sample_Application">The &quot;CarSales&quot; Sample Application</a></h2><p>The &quot;CarSales&quot; example application is intended as a showcase for UIDL technology. It uses a combination of Spring and Hibernate on the server side to implement an application which manages customer's automotive preferences. The database schema for the example is presented below:</p><p><img border="0" src="images/dbSchema.GIF" width="578" height="303"></p><p>There is a one to one correspondence between the Java objects and their respective tables. All relationships are managed using EJB 3 persistence annotations and the entire database schema can be regenerated at any time directly from the object model. The association tables (e.g. customer_make) are generated automatically and are required for N:N mappings. Obviously these tables don't directly map to any Java objects.</p><p>To run the CarSales application, first ensure that your <a href="#Configuring_the_CarSales_Data_Source">database is configured correctly</a> and then simply point your UIDL browser at the CarSales example URL (e.g. <a href="http://localhost:8080/uidl/carsales/carsales.uidl">http://localhost:8080/uidl/carsales/carsales.uidl</a>).</p><p>The CarSales examples allows of use of either Spring remoting or JSON-RPC as a transport layer. The example also reveals how transparently the remoting implementation can be switched.</p><p>The UIDL source code for the application is located under &quot;<b>/webapp/carsales</b>&quot;. The Java code for the server side is located under &quot;<b>/examples/net/uidl/carsales/</b>&quot;.</p><p><img border="0" src="images/CarSales.GIF" width="900" height="600"></p><p>Basically, the CarSales application allows you to add as many makes as you like (e.g. Alfa, Fiat, Ferrari). You can then add models to these makes (MAKE_MODEL association) In a similar way, you can create customers and associate make preferences with each customer. You can also create options (heated seats, metallic paint, etc.) and associate these with wither the make or the model. All data is persisted in real time in the Derby embedded database on the server.</p><h2>
+<a name="UIDL_Security">UIDL Security</a></h2><p align="justify">Most enterprise class applications will require some form of 
+security, including the possibility to recognize and authenticate users and 
+assign appropriate roles. Rather than forcing application developers to 
+implement custom solutions to satisfy these requirements, the UIDL environment 
+aims to make it as easy as possible to implement security in UIDL applications.</p><p align="justify">Given that the UIDL browser uses HTTP to transport UIDL 
+scripts and HTTP for all remoting operations (unless a custom remote object 
+mechanism is used), one can make use of existing HTTP security standards such as 
+HTTPS and realm based authentication.<p align="justify">Specifically, the following code within 
+the web descriptor (web.xml) of the UIDL web application is sufficient to 
+protect not only the downloading of the UIDL scripts but also any method calls 
+which might be issued from a script. Finer grained security can obviously be 
+implemented if required.<p align="justify">The UIDL browser (running in either 
+applet or Java Web Start mode) will use a dialog box to prompt the user for 
+credentials the first time he accesses a protected resource. Note that the realm 
+will need to be configured on the web server / web application server in order 
+for this type of security to function. Typically a realm is linked to an LDAP 
+directory containing user information.
+
+<pre><font face="Courier"><font face="Courier">
+&nbsp;&nbsp;&nbsp; &lt;security-constraint&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;display-name&gt;Admin Security Constraint&lt;/display-name&gt;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;!-- protect method calls --&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;web-resource-collection&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;web-resource-name&gt;Spring Remoting&lt;/web-resource-name&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url-pattern&gt;/remote/*&lt;/url-pattern&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/web-resource-collection&gt;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;!-- protect UIDL script download --&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;web-resource-collection&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;web-resource-name&gt;UIDL Scripts&lt;/web-resource-name&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;url-pattern&gt;/scripts/*.uidl&lt;/url-pattern&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/web-resource-collection&gt;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;auth-constraint&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;role-name&gt;Admin&lt;/role-name&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/auth-constraint&gt;
+&nbsp;&nbsp;&nbsp; &lt;/security-constraint&gt;
+
+&nbsp;&nbsp;&nbsp; &lt;!-- Define the Login Configuration for this Application --&gt;
+&nbsp;&nbsp;&nbsp; &lt;login-config&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;auth-method&gt;BASIC&lt;/auth-method&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;realm-name&gt;Admin Security Constraint&lt;/realm-name&gt;
+&nbsp;&nbsp;&nbsp; &lt;/login-config&gt;
+
+&nbsp;&nbsp;&nbsp; &lt;security-role&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;role-name&gt;Admin&lt;/role-name&gt;
+&nbsp;&nbsp;&nbsp; &lt;/security-role&gt;
+
+</font></font></pre></font></body></html>
