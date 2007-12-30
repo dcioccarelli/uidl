@@ -9,7 +9,6 @@ hibernate3.jar
 jabsorb.jar
 js.jar
 persistence.jar
-readme.txt
 servlet-api.jar
 spring.jar
 xercesImpl.jar
@@ -36,7 +35,6 @@ jabsorb.jar
 json.jar
 jsonrpc.jar
 persistence.jar
-readme.txt
 slf4j-api-1.4.2.jar
 slf4j-jdk14-1.4.2.jar
 spring-webmvc.jar
