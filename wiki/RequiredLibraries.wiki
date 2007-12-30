@@ -1,5 +1,3 @@
-#JAR files required for running and building UIDL and example applications.
-
 ==JAR files required for running and building UIDL and example applications==
 
   * Libraries required for building UIDL and example applications (`/lib`).
