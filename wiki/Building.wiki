@@ -3,6 +3,20 @@ If you intend to modify or recompile the UIDL browser code, you will need to be 
 
 If you wish to distribute the UIDL browser (or a UIDL application) in a production environment then it is advisable to sign all the required JAR files using a proper digital certificate issued from a trusted certificate authority. The build script (`build.xml`) can be modified with the appropriate certificate information if required.
 
+To generate your own certificate (for local testing) you should use the `keytool` utility which is included with the Java JDK. This can be accomplished as follows:
+
+`keytool -genkey -alias myalias`
+
+You will then need to answer a feq questions. When you are finished, make sure you modify the build.xml with the alias and password you used in the previous step:
+
+{{{
+<target name="signedjar" depends="jar" description="Create a .jar file from UIDL browser classes">
+   <signjar alias="myalias" storepass="mypassword">
+        <fileset dir="${outputDir}/" includes="**/*.jar"/>
+   </signjar>
+</target>
+}}}
+
 The targets available for building the UIDL browser are as follows:
 
 {{{
