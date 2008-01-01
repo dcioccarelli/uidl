@@ -1,10 +1,10 @@
 ==UIDL Wiki Index==
 
-  * Introduction
-  * Running
+  * [Introduction]
+  * [Running]
   * RequiredLibraries
-  * Building
-  * Applet
+  * [Building]
+  * [Applet]
   * WebStart
   * JsonRpc
   * SpringRemoting
