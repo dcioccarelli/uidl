@@ -4,8 +4,8 @@
   * [Introduction]
   * Downloading, Installing & Building UIDL
     * [Installation]
-    * [Running]
     * RequiredLibraries
+    * [Running]
     * [Building]
   * UIDL: The Browser
     * UidlBrowser
