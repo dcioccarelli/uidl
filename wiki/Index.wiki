@@ -2,9 +2,11 @@
 ==UIDL Wiki Index==
 
   * [Introduction]
-  * [Running]
-  * RequiredLibraries
-  * [Building]
+  * [Installation]
+    * [Running]
+    * RequiredLibraries
+    * [Building]
+  * UidlBrowser
   * [Applet]
   * WebStart
   * JsonRpc
