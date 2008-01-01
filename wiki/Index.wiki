@@ -9,3 +9,4 @@
   * WebStart
   * JsonRpc
   * SpringRemoting
+  * CarSales Example Application
