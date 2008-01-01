@@ -2,13 +2,17 @@
 ==UIDL Wiki Index==
 
   * [Introduction]
-  * [Installation]
+  * Downloading, Installing & Building UIDL
+    * [Installation]
     * [Running]
     * RequiredLibraries
     * [Building]
-  * UidlBrowser
-  * [Applet]
-  * WebStart
-  * JsonRpc
-  * SpringRemoting
-  * CarSales Example Application
+  * UIDL: The Browser
+    * UidlBrowser
+    * [Applet]
+    * WebStart
+  * Remoting
+    * JsonRpc
+    * SpringRemoting
+  * Example Applications
+    * CarSales Example Application
