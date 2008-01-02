@@ -18,14 +18,14 @@ In order to simplify the (one time) deployment of the UIDL browser, many options
 
 The UIDL Browser looks similar to the following picture when run as a Java Web Start application.
 
-http://www.uidl.net/doc/images/howitw1.jpg
+http://java.uidl.net/doc/images/howitw1.jpg
 
 When a UIDL page is loaded, the body of the UIDL application is displayed in the browser's content area as follows:
 
-http://www.uidl.net/doc/images/howitw2.jpg
+http://java.uidl.net/doc/images/howitw2.jpg
 
 When deployed as a Java WebStart application or Java Applet, one can pass the URL of the UIDL application script to the UIDL browser as a parameter and choose to have the address bar concealed. In this way, the user isn't presented with an address bar or navigation buttons and the specified page loads immediately. Compare the application above with that below:
 
-http://www.uidl.net/doc/images/howitw3.jpg
+http://java.uidl.net/doc/images/howitw3.jpg
 
 This mode of deployment is recommended for environments where the user will only be accessing a single UIDL based application (and therefore doesn't need the navigation capabilities) or when the UIDL browser is run as an applet and the users may confuse the HTML browser's navigation bar with that of the UIDL browser. This mode of deployment can be thought of as "embedding" the UIDL browser into the UIDL application.
