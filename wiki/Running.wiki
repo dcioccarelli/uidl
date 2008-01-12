@@ -37,34 +37,49 @@ After running Jetty, point your browser to http://localhost:8080/uidl/ and run e
 
 ===Configuring the "CarSales" Data Source===
 
-Irrespective of how you run the UIDL web application, you should edit the `applicationContext.xml` file (in the `/WEB-INF` directory) to point to the DB directory of where you extracted the UIDL distribution. As mentioned previously, we have included a sample Derby DB for the "CarSales" example. Due to the way the embedded Derby driver works, we need to specify the location of this directory in the JDBC URI, which is located in the Spring `applicationContext.xml`, i.e.:
+Irrespective of how you run the UIDL web application, you should look at the "`applicationContext.xml`" file (in the `/WEB-INF directory`) to see how the CarSales Derby database is configured. The location of the database is defined by the JDBC URI, which is located in the Spring "`applicationContext.xml`", i.e.:
 
-{{{
+{{
 <!-- Configuration for an application managed JDBC datasource -->
 <bean id="carsalesDataSource" class="org.apache.commons.dbcp.BasicDataSource" 
 destroy-method="close">
-  <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-  <property name="url" value="jdbc:derby:C:/cep/uidl/db/carsales;create=true"/>
-  <property name="username" value=""/>
-  <property name="password" value=""/>
+<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+<property name="url" value="jdbc:derby:carsales;create=true"/>
+<property name="username" value=""/>
+<property name="password" value=""/>
 </bean>
-}}}
+}}
 
 Alternatively you can configure the data source in your web application server and reference it from the Spring configuration file as follows:
 
-{{{
+{{
 <bean id="carsalesDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-  <property name="jndiName" value="java:comp/env/jdbc/carsales"/>
+<property name="jndiName" value="java:comp/env/jdbc/carsales"/>
 </bean>
-}}}
+}}
 
-If you don't want to use the pre-configured database, you can get Hibernate to rebuild an empty schema by specifying a new Derby URI and then modifying the Spring configuration as follows:
+The default URI (`jdbc:derby:carsales;create=true`) will create a database in the root directory where you run the application from. Alternatively you can specify a fixed path as follows: `jdbc:derby:C:/cep/uidl/db/carsales;create=true`.
 
-{{{
+The default configuration will create and export a new database schema each time the application server is started (or the web application is restarted). This is defined in the following configuration:
+
+{{
 <property name="hibernateProperties">
     <props>
 	<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
 	<prop key="hibernate.hbm2ddl.auto">create</prop>
     </props>
 </property>
-}}}
+}}
+
+The application will automatically populate the database with some default data if it finds that it is empty. Typically though, after your first run (when the Derby database is created) you should comment out the schema export code as follows:
+
+{{
+<property name="hibernateProperties">
+    <props>
+	<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
+	<!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+    </props>
+</property>
+}}
+
+Failure to complete this configuration will mean that whenever the web application is restarted it will be recreated and repopulated with the default content.
