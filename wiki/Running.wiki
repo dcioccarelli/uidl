@@ -16,9 +16,15 @@ The /webapp directory contains all the server side code required for the example
 
 To illustrate how simple it is to run a very simple (static) UIDL application, you can simply copy the contents of the `/webapp` directory to a normal web server. From there you can navigate to the index page (`index.html`) and run either the Java WebStart or Applet version of the UIDL browser. Once running the browser, you can run any of the static UIDL examples (i.e. those which don't use remoting). These include `simple.uidl` and `converter.uidl`.
 
-===Using a Web Application Server===
+===Using the embedded Jetty Application Server===
 
-Obviously, more complex applications will require some interaction with business logic running on the server. As a result, we need to run the server side code for the example applications within a web application container. This can be done in one of two ways:
+Obviously, more complex applications will require some interaction with business logic running on the server. As a result, we need to run the server side code for the example applications within a web application container.
+
+You can simply run "`webserver.bat`" or "`webserver.sh`" from the root directory. This will used an embedded version of the Jetty web application server to publish the contents of the "webapp" sub-directory.*
+
+After running Jetty, point your browser to http://localhost:8080/uidl/ and run either the applet or Java WebStart UIDL browser from there.
+
+===Using a Web Application Server===
 
   * The `/webapp` subdirectory is already in the correct format (exploded WAR) for most web application servers (e.g. Tomcat). You can configure your application server to point directly to the `/webapp` directory which was part of the UIDL distribution that you unzipped previously. In Tomcat, this would be done using a context descriptor (e.g. `uidl.xml`) similar to the following:
 
