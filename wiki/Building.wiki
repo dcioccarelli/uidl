@@ -34,7 +34,7 @@ Main targets:
 Default target: signedjar
 }}}
 
-Typically you will compile a new browser by using `ant signedjar`. This will produce a new UIDL browser library (uidl.jar) in the `/webapp/browser directory`. In this way, the browser (either running as a Java WebStart application or as an applet) will pick up the new JAR file the next time it runs.
+Typically you will compile a new browser by using `ant signedjar`. This will produce a new UIDL browser library (`uidl.jar`) in the `/webapp/browser` directory. In this way, the browser (either running as a Java WebStart application or as an applet) will pick up the new JAR file the next time it runs.
 
 In order to compile the example applications, a second build script is used. This time the options are as follows:
 
@@ -56,4 +56,4 @@ Default target: jar
 
 The default target (jar) will produce a new JAR file with the class files for the examples in the `/webapp/WEB-INF/lib` directory. Depending on how you have configured your web application server, you may need to use the "war" target and redeploy the WAR archive (containing the new examples JAR) to your application server.
 
-For some of the remoting examples, the UIDL code needs to have access to both the Java interfaces for the remote object factories / facades and the class files for the actual objects which are transmitted (in serialized form) to the UIDL application (and subsequently translated into JavaScript objects). Rather than passing the entire "examples.jar" file to the client, we produce a much lighter "remoteClasses.jar" which is made available in the `/webapp/jar directory`. The remoteClassJar target is responsible for producing this file and the classes which it contains are specified in `/build/remoteInterface.txt`.
+For some of the remoting examples, the UIDL code needs to have access to both the Java interfaces for the remote object factories / facades and the class files for the actual objects which are transmitted (in serialized form) to the UIDL application (and subsequently translated into JavaScript objects). Rather than passing the entire "`examples.jar`" file to the client, we produce a much lighter "remoteClasses.jar" which is made available in the `/webapp/jar` directory. The `remoteClassJar` target is responsible for producing this file and the classes which it contains are specified in `/build/remoteInterface.txt`.
