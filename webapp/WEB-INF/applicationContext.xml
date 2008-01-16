@@ -14,7 +14,7 @@
     <!-- Configuration for an application managed JDBC datasource -->
     <bean id="carsalesDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-        <property name="url" value="jdbc:derby:C:/cep/uidl/db/carsales;create=true"/>
+        <property name="url" value="jdbc:derby:carsales;create=true"/>
         <property name="username" value=""/>
         <property name="password" value=""/>
     </bean>
@@ -24,8 +24,8 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
-                <!-- uncomment the next line if you want to get hibernate to recreate the DB schema -->
-                <!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+                <!-- comment out the next line to prevent hibernate from recreating the DB schema -->
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
             </props>
         </property>
         <property name="annotatedClasses">

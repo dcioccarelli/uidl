@@ -48,7 +48,8 @@
           deprecation="off"
           optimize="on"
           excludes="net/uidl/example/**"
-          source="1.6">
+          target="1.5"
+          source="1.5">
       <classpath refid="classDirpath"/>
    </javac>
 </target>
@@ -62,7 +63,7 @@
 <target name="signedjar" depends="jar" description="Create a .jar file from UIDL browser classes">
    <!-- You will need to change the alias and password to
         suit your keystore -->
-   <signjar alias="dominic" storepass="dominic">
+   <signjar alias="uidl" storepass="dominic">
         <fileset dir="${outputDir}/" includes="**/*.jar"/>
    </signjar>
 </target>
