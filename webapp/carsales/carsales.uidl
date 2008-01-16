@@ -1,5 +1,5 @@
 // Common utility libraries
-browser.loadRemoteLibrary("lib/TableLayout.jar");
+browser.loadRemoteLibrary("../jar/TableLayout.jar");
 
 // Package synonyms
 browser.include("packages.uidl");
@@ -11,6 +11,7 @@ browser.include("customerActions.uidl");
 browser.include("carActions.uidl");
 browser.include("optionActions.uidl");
 
+System.setSecurityManager(null);
 UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
 frame.setLayout(new Awt.BorderLayout());
@@ -35,5 +36,15 @@ implementation = Swing.JOptionPane.showInputDialog(null,
                     ["spring", "json-rpc", "json-rpc-js"],
                     "spring");
 
+frame.setCursor(Awt.Cursor.getPredefinedCursor(Awt.Cursor.WAIT_CURSOR));
 // include corresponding UIDL script to initilise remote proxies
 browser.include(implementation + ".uidl");
+frame.setCursor(Awt.Cursor.getDefaultCursor());
+
+// populate database if required
+var makes = makeManager.getAllMakes();
+if (makes.size() == 0)
+{
+    browser.include("populateDb.uidl");
+}
+
