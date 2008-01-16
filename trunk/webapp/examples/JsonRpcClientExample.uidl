@@ -2,14 +2,12 @@
 browser.loadRemoteLibrary("../jar/remoteClasses.jar");
 
 // Libraries for json-rpc-client
-browser.loadRemoteLibrary("../jar/json-rpc-client.jar");
-browser.loadRemoteLibrary("../jar/httpclient.jar");
-browser.loadRemoteLibrary("../jar/json.jar");
-browser.loadRemoteLibrary("../jar/jsonrpc.jar");
-browser.loadRemoteLibrary("../jar/commons-codec.jar");
-browser.loadRemoteLibrary("../jar/commons-logging.jar");
+browser.loadRemoteLibrary("../jar/jabsorb.jar");
+browser.loadRemoteLibrary("../jar/slf4j-api.jar");
+browser.loadRemoteLibrary("../jar/slf4j-jdk14.jar");
 
 browser.include("packages.uidl");
+System.setSecurityManager(null);
 
 function UserTableModel(users)
 {
@@ -92,25 +90,21 @@ function createMenuBar()
     jMenuHelpAbout = new Swing.JMenuItem();
     jMenuHelpAbout.setText("About");
     jMenuHelpAbout.addActionListener(aboutAction);
-    
+
     appToolbar = new Swing.JToolBar();
     jMenuFile.add(jMenuFileExit);
     jMenuHelp.add(jMenuHelpAbout);
     jMenuBar.add(jMenuFile);
     jMenuBar.add(jMenuHelp);
-    
+
     return jMenuBar;
 }
 
 var hostRoot = "http://" + hostName + ":" + hostPort + "/uidl/";
-Client = Packages.org.apache.commons.httpclient;
-JsonRpc = Packages.org.codebistro.jsonrpc;
-JsonRpc.HTTPSession.register(JsonRpc.TransportRegistry.i());
-var httpSession= JsonRpc.TransportRegistry.i().createSession(hostRoot + "JSON-RPC");
-var state = new Client.HttpState();
-httpSession.setState(state);
-client = new JsonRpc.Client(httpSession);
 
+JsonRpc = Packages.org.jabsorb.client;
+var session = JsonRpc.TransportRegistry.i().createSession(hostRoot + "JSON-RPC");
+client = new JsonRpc.Client(session);
 var userManager = client.openProxy("userManager", Uidl.example.UserManager);
 
 var users = userManager.getUsers();

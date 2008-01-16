@@ -5,7 +5,7 @@
 <!-- Dealer of app server JARs (servlet.jar, etc.) -->
 <property name="outputJar" value="examples.jar"/>
 <property name="remoteClassJar" value="remoteClasses.jar"/>
-<property name="examplesLibDir" value="../webapp/examples/lib"/>
+<property name="examplesLibDir" value="../webapp/jar"/>
 <property name="webLibDir" value="../webapp/WEB-INF/lib"/>
 <property name="webClassesDir" value="../webapp/WEB-INF/classes"/>
 <property name="libDir" value="../lib"/>
@@ -55,6 +55,7 @@
           debug="on"
           deprecation="off"
           optimize="on"
+          target="1.5"
           source="1.5">
       <classpath refid="classDirpath"/>
    </javac>
@@ -81,6 +82,7 @@
 </target>
 
 <target name="war" depends="clean,jar" description="Create a WAR file to deploy the application">
+   <mkdir dir="${deployDir}"/>
    <delete file="${deployDir}/${warFile}" verbose="true"/>
    <war warfile="${deployDir}/${warFile}" webxml="../webapp/WEB-INF/web.xml">
      <fileset dir="../webapp" includes="**"/>

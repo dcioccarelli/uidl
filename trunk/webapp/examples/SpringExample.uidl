@@ -2,6 +2,7 @@ browser.loadRemoteLibrary("../jar/spring-client.jar");
 browser.loadRemoteLibrary("../jar/remoteClasses.jar");
 
 browser.include("packages.uidl");
+System.setSecurityManager(null);
 
 function UserTableModel(users)
 {
