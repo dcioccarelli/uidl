@@ -185,13 +185,10 @@ function editMakePreferencesAction(evt)
     availableMakes = makeManager.getAllMakes();
 
     var rows = availableMakes.size() + 2;
-    win.setSize(new Awt.Dimension(300, 400));
+    win.setSize(new Awt.Dimension(350, (rows * 15 + 100)));
     pane = win.getContentPane();
     pane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
     pane.setLayout(new GridLayout(rows, 1, 0, 0));
-
-    for(var i=0; i<makePreferences.size(); i++)
-        System.out.println(">>> " + makePreferences.get(i).getName());
 
     for(var i=0; i<availableMakes.size(); i++)
     {
