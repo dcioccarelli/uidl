@@ -1,0 +1,43 @@
+// create customers
+
+for(var i=0; i<10; i++)
+{
+    var customer = new Uidl.carsales.Customer();
+    customer.setEmail("user" + i + "@uidl.net");
+    customer.setFirstName("User");
+    customer.setLastName(i);
+    customer.setCountry(i + " Land");
+    customerManager.saveCustomer(customer);
+}
+
+// create makes
+var makes = new Array("Alfa", "Fiat", "Ferrari", "Lamborghini", "Maserati");
+for(var i in makes)
+{
+    var make = new Uidl.carsales.Make();
+    make.setName(makes[i]);
+    make.setDescription(makes[i]);
+    makeManager.saveMake(make);
+}
+
+// create models for Alfa Romeo
+var models = new Array("1750 GTV", "GT", "Alfetta", "Sprint", "Sud", "Gulia", "Guiletta", "Montreal");
+var make = makeManager.getMake("Alfa");
+for(var i in models)
+{
+    var model = new Uidl.carsales.Model();
+    model.setName(models[i]);
+    model.setDescription(models[i]);
+    make.getModels().add(model);
+    makeManager.saveMake(make);
+}
+
+// create options
+var options = new Array("Heated Seats", "Alloy Wheels", "Metallic Paint", "Parking Sensors", "Sports Seats");
+for(var i in options)
+{
+    var o = new Uidl.carsales.Option();
+    o.setName(options[i]);
+    o.setDescription(options[i]);
+    optionManager.saveOption(o);
+}
