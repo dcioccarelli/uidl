@@ -321,7 +321,11 @@ public class Browser extends JFrame
             currentUrl = url;
             String addr = url.toString();
             String hostName = url.getHost();
-            String hostPort = new Integer(url.getPort()).toString();
+            int port = url.getPort();
+            if (port == -1)
+                port = 80;
+            String hostPort = new Integer(port).toString();
+
             int pos = addr.lastIndexOf('/') + 1;
             String hostPrefix = addr.substring(0, pos);
             String title = addr.substring(pos);
