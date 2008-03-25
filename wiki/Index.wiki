@@ -11,8 +11,5 @@
     * UidlBrowser
     * [Applet]
     * WebStart
-  * Remoting
-    * JsonRpc
-    * SpringRemoting
   * Example Applications
     * CarSales Example Application
